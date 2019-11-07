@@ -12,10 +12,12 @@ A new Flutter plugin.
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'Your Company' => 'email@example.com' }
   s.source           = { :path => '.' }
-  s.source_files = 'Classes/**/*'
+#  s.source_files = 'Classes/**/*'
+  s.source_files = 'Classes/**/*.{h,m,swift}'
   s.public_header_files = 'Classes/**/*.h'
+  s.vendored_libraries = 'Classes/libopencore-amrnb.a'
   s.dependency 'Flutter'
-
+  s.framework  = "AVFoundation"
   s.ios.deployment_target = '8.0'
 end
 
