@@ -1,11 +1,18 @@
 # 使用Flutter实现 仿微信录音的插件 
-插件提供两种录制方式 
-1. 只是引入录制功能 2. 提供类似微信的录制组件
+插件支持android 和IOS
+
+-------
+插件提供的功能
+
+1. 录制语音,
+2. 播放录音,
+3. 录制声音大小的监听
+3. 提供类似微信的录制组件
 
 [TOC]
 
 ## 引入方式
-
+在pubspec.yaml 文件上引入如下配置
 
     引入方式1(引入最新的版本)
     flutter_plugin_record:
@@ -28,7 +35,8 @@
 
 ## 使用
 ### 1, 初始化录制
- 
+可以在页面初始化的时候进行初始化比如: 在initState方法中进行初始化
+
     //实例化对象 
     FlutterPluginRecord   recordPlugin = new FlutterPluginRecord();
     //    初始化
@@ -42,6 +50,8 @@
 ### 4, 播放
      recordPlugin.play()
 ### 3, 释放资源
+可以在页面退出的时候进行资源释放 比如在  dispose方法中调用如下代码
+
      recordPlugin.dispose()
      
 ### 4,回调监听  
@@ -103,7 +113,22 @@
         });
     
      
+## 录制组件的使用
 
+### 1,在使用的页面进行导入package
+
+    import 'package:flutter_plugin_record/index.dart';  
+        
+    
+    
+
+    
+### 2,在使用的地方引入VoiceWidget组件
+    
+    new VoiceWidget(),
+    
+    
+    
 ## TODO
 
 * [x] 实现发送语音时间按下抬起时间很短提示
