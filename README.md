@@ -11,7 +11,7 @@
 
 [TOC]
 
-## 引入方式
+## 1,引入
 在pubspec.yaml 文件上引入如下配置
 
     引入方式1(引入最新的版本)
@@ -33,7 +33,7 @@
         
 
 
-## 使用
+### 使用
 ### 1, 初始化录制
 可以在页面初始化的时候进行初始化比如: 在initState方法中进行初始化
 
@@ -113,7 +113,9 @@
         });
     
      
-## 录制组件的使用
+## 2,录制组件的使用
+ 组件使用效果
+![](https://github.com/yxwandroid/flutter_plugin_record/blob/master/gifeditor_20191108_164610.gif?raw=true)
 
 ### 1,在使用的页面进行导入package
 
