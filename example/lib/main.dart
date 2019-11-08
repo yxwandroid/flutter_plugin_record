@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_plugin_record_example/overlay_screen.dart';
 import 'package:flutter_plugin_record_example/second_screen.dart';
 
 void main() => runApp(MyApp());
@@ -12,9 +13,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: new MyHomePage(title: 'Flutter Demo Home Page'),
-//      routes: {
-//        "nameRoute": (BuildContext context) => new SecondScreen(),
-//      },
+      routes: {
+        "SecondScreen": (BuildContext context) => new SecondScreen(),
+        "OverLayScreen": (BuildContext context) => new OverLayScreen(),
+      },
     );
   }
 }
@@ -28,6 +30,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -40,12 +49,15 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             new FlatButton(
                 onPressed: () {
-//                  Navigator.pushNamed<dynamic>(context, "nameRoute");
-                  Navigator.push(context, MaterialPageRoute(builder: (_) {
-                    return SecondScreen();
-                  }));
+                  Navigator.pushNamed<dynamic>(context, "SecondScreen");
                 },
                 child: new Text("进入语音录制界面")),
+            new FlatButton(
+                onPressed: () {
+                  Navigator.pushNamed<dynamic>(context, "OverLayScreen");
+                },
+                child: new Text("进入仿微信录制界面")),
+
           ],
         ),
       ),

@@ -28,6 +28,15 @@ flutter:
   plugin:
     androidPackage: record.wilson.flutter.com.flutter_plugin_record
     pluginClass: FlutterPluginRecordPlugin
+  uses-material-design: true
+#  assets:
+#    - images/voice_volume_1.png
+#    - images/voice_volume_2.png
+#    - images/voice_volume_3.png
+#    - images/voice_volume_4.png
+#    - images/voice_volume_5.png
+#    - images/voice_volume_6.png
+#    - images/voice_volume_7.png
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:
