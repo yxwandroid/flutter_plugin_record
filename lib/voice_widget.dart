@@ -24,7 +24,11 @@ class _VoiceWidgetState extends State<VoiceWidget> {
   void initState() {
     super.initState();
     recordPlugin = new FlutterPluginRecord();
+
     _init();
+
+
+
     ///初始化方法的监听
     recordPlugin.responseFromInit.listen((data) {
       if (data) {
