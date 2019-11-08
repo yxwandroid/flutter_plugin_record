@@ -8,20 +8,21 @@ class FlutterPluginRecord {
 
   final  MethodChannel _channel = const MethodChannel('flutter_plugin_record')..setMethodCallHandler(_handler);
 
-
   static final _uuid = new Uuid();
   String id;
   static final alis = new Map<String, FlutterPluginRecord>();
   FlutterPluginRecord(){
     id = _uuid.v4();
     alis[id] = this;
+    print("--------FlutterPluginRecord init");
   }
 
-  ///Flutter 调用原生
+  ///Flutter  调用原生初始化
   Future<dynamic> _invokeMethod(String method,
       [Map<String, dynamic> arguments = const {}]) {
     Map<String, dynamic> withId = Map.of(arguments);
     withId['id'] = id;
+    print("--------FlutterPluginRecord _invokeMethod");
     return _channel.invokeMethod(method, withId);
   }
 
@@ -39,7 +40,11 @@ class FlutterPluginRecord {
    Stream<RecordResponse> get responseFromAmplitude => _responseAmplitudeController.stream;
 
 
+
+   ///原生回调
    static Future<dynamic> _handler(MethodCall methodCall) {
+     print("--------FlutterPluginRecord _handler");
+
      String id = (methodCall.arguments as Map)['id'];
      FlutterPluginRecord recordPlugin = alis[id];
      switch (methodCall.method) {
@@ -126,5 +131,12 @@ class FlutterPluginRecord {
        "play": "play",
      });
    }
+
+
+  dispose(){
+    _responseInitController.close();
+    _responseController.close();
+    _responseAmplitudeController.close();
+  }
 
 }

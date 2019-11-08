@@ -31,25 +31,6 @@ class FlutterPluginRecordPlugin: MethodCallHandler ,PluginRegistry.RequestPermis
   private var audioHandler: AudioHandler? = null
 
 
-  constructor(registrar: Registrar, _channel: MethodChannel) {
-    this.registrar = registrar
-    this.channel = _channel
-  }
-
-  override fun onRequestPermissionsResult(p0: Int, p1: Array<out String>?, p2: IntArray?): Boolean {
-    if (p0 == MY_PERMISSIONS_REQUEST_CALL_PHONE) {
-      if (p2?.get(0) == PackageManager.PERMISSION_GRANTED) {
-        initRecord()
-        return true
-      } else {
-        Toast.makeText(registrar.activity(), "Permission Denied", Toast.LENGTH_SHORT).show()
-      }
-      return false
-    }
-
-    return false
-  }
-
 
 
   companion object {
@@ -58,6 +39,11 @@ class FlutterPluginRecordPlugin: MethodCallHandler ,PluginRegistry.RequestPermis
       var channel = MethodChannel(registrar.messenger(), "flutter_plugin_record")
       channel.setMethodCallHandler(FlutterPluginRecordPlugin(registrar,channel))
     }
+  }
+
+  constructor(registrar: Registrar, _channel: MethodChannel) {
+    this.registrar = registrar
+    this.channel = _channel
   }
 
   override fun onMethodCall(call: MethodCall, result: Result) {
@@ -179,5 +165,21 @@ class FlutterPluginRecordPlugin: MethodCallHandler ,PluginRegistry.RequestPermis
       LogUtils.LOGE("MessageRecordListener onError $error")
     }
   }
+
+
+  override fun onRequestPermissionsResult(p0: Int, p1: Array<out String>?, p2: IntArray?): Boolean {
+    if (p0 == MY_PERMISSIONS_REQUEST_CALL_PHONE) {
+      if (p2?.get(0) == PackageManager.PERMISSION_GRANTED) {
+        initRecord()
+        return true
+      } else {
+        Toast.makeText(registrar.activity(), "Permission Denied", Toast.LENGTH_SHORT).show()
+      }
+      return false
+    }
+
+    return false
+  }
+
 
 }

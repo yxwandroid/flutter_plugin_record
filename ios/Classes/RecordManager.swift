@@ -29,9 +29,21 @@ class RecordManager {
         
         //设置录音类型
 //        try! session.setCategory(AVAudioSession.Category.pl)
-        try! session.setCategory(AVAudioSession.Category.playAndRecord)
+      //  try! session.setCategory(AVAudioSession.Category.playAndRecord)
+        do {
+            if #available(iOS 10.0, *) {
+                try session.setCategory(AVAudioSessionCategoryPlayAndRecord, mode: AVAudioSessionModeVoiceChat, options: AVAudioSessionCategoryOptions.mixWithOthers)
+            } else {
+                try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
+                // Fallback on earlier versions
+            }
+            try session.overrideOutputAudioPort(.none)
+            try session.setActive(true)
+        } catch {
+            debugPrint(error.localizedDescription)
+        }
         //设置支持后台
-        try! session.setActive(true)
+        //try! session.setActive(true)
         //获取Document目录
         let docDir = NSSearchPathForDirectoriesInDomains(.documentDirectory,
                                                          .userDomainMask, true)[0]
