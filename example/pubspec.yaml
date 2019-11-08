@@ -30,14 +30,14 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-  assets:
-    - images/voice_volume_1.png
-    - images/voice_volume_2.png
-    - images/voice_volume_3.png
-    - images/voice_volume_4.png
-    - images/voice_volume_5.png
-    - images/voice_volume_6.png
-    - images/voice_volume_7.png
+#  assets:
+#    - images/voice_volume_1.png
+#    - images/voice_volume_2.png
+#    - images/voice_volume_3.png
+#    - images/voice_volume_4.png
+#    - images/voice_volume_5.png
+#    - images/voice_volume_6.png
+#    - images/voice_volume_7.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

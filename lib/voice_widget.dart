@@ -102,7 +102,7 @@ class _VoiceWidgetState extends State<VoiceWidget> {
                           voiceIco,
                           width: 100,
                           height: 100,
-//                          package: "flutter_plugin_record",
+                          package: "flutter_plugin_record",
                         ),
                       ),
                       Container(
