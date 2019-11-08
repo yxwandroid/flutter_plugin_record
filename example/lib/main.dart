@@ -32,7 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("演示跳转"),
+        title: new Text("flutter版微信语音录制实现"),
       ),
       body: new Center(
         child: new Column(
@@ -45,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     return SecondScreen();
                   }));
                 },
-                child: new Text("直接使用name跳转")),
+                child: new Text("进入语音录制界面")),
           ],
         ),
       ),

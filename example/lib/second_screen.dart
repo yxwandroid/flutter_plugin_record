@@ -15,12 +15,16 @@ class _SecondScreenState extends State<SecondScreen> {
   String textShow = "按住说话";
   String toastShow = "手指上滑,取消发送";
   String voiceIco = "images/voice_volume_1.png";
+
   ///默认隐藏状态
   bool voiceState = true;
 
   @override
   void initState() {
     super.initState();
+
+
+    ///初始化方法的监听
     recordPlugin.responseFromInit.listen((data) {
       if (data) {
         print("初始化成功");
@@ -28,13 +32,18 @@ class _SecondScreenState extends State<SecondScreen> {
         print("初始化失败");
       }
     });
+
+    /// 开始录制或结束录制的监听
     recordPlugin.response.listen((data) {
       if (data.msg == "onStop") {
+        ///结束录制时会返回录制文件的地址方便上传服务器
         print("onStop  " + data.path);
       } else if (data.msg == "onStart") {
         print("onStart --");
       }
     });
+
+    ///录制过程监听录制的声音的大小 方便做语音动画显示图片的样式
     recordPlugin.responseFromAmplitude.listen((data) {
       var voiceData = double.parse(data.msg);
       var tempVoice = "";
@@ -177,8 +186,7 @@ class _SecondScreenState extends State<SecondScreen> {
                           ),
                         ),
                         Container(
-                          padding:
-                          EdgeInsets.only(right: 20, left: 20, top: 0),
+                          padding: EdgeInsets.only(right: 20, left: 20, top: 0),
                           child: Text(
                             toastShow,
                             style: TextStyle(color: Colors.white),
@@ -196,25 +204,29 @@ class _SecondScreenState extends State<SecondScreen> {
     );
   }
 
+  ///初始化语音录制的方法
   void _init() async {
     recordPlugin.init();
   }
 
+  ///开始语音录制的方法
   void start() async {
     recordPlugin.start();
   }
 
+  ///停止语音录制的方法
   void stop() {
     recordPlugin.stop();
   }
 
+  ///播放语音的方法
   void play() {
     recordPlugin.play();
   }
 
-
   @override
   void dispose() {
+    /// 当界面退出的时候是释放录音资源
     recordPlugin.dispose();
     super.dispose();
   }

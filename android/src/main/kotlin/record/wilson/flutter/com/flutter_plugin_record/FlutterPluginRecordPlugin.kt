@@ -22,15 +22,13 @@ import java.util.*
 
 class FlutterPluginRecordPlugin: MethodCallHandler ,PluginRegistry.RequestPermissionsResultListener{
 
-  private val MY_PERMISSIONS_REQUEST_CALL_PHONE = 1
+  private val MY_PERMISSIONS_REQUEST_RECORD_AUDIO = 1
   internal  var registrar: Registrar
   internal  var channel: MethodChannel
   internal lateinit var _result: Result
   internal lateinit var _call: MethodCall
   internal lateinit var voicePlayPath: String
   private var audioHandler: AudioHandler? = null
-
-
 
 
   companion object {
@@ -43,6 +41,7 @@ class FlutterPluginRecordPlugin: MethodCallHandler ,PluginRegistry.RequestPermis
 
   constructor(registrar: Registrar, _channel: MethodChannel) {
     this.registrar = registrar
+    this.registrar.addRequestPermissionsResultListener(this)
     this.channel = _channel
   }
 
@@ -58,6 +57,22 @@ class FlutterPluginRecordPlugin: MethodCallHandler ,PluginRegistry.RequestPermis
     }
   }
 
+  private fun initRecord() {
+
+    if (audioHandler!=null){
+      audioHandler?.release()
+      audioHandler =null
+    }
+    audioHandler = AudioHandler.createHandler(AudioHandler.Frequency.F_8000)
+
+    Log.d("android voice  ", "init")
+    val _id = _call.argument<String>("id")
+    val m1 = HashMap<String, String>()
+    m1["id"] = _id!!
+    m1["result"] = "success"
+    channel.invokeMethod("onInit", m1)
+
+  }
   private fun play() {
     val recorderUtil = RecorderUtil(voicePlayPath)
     recorderUtil.playVoice()
@@ -69,16 +84,19 @@ class FlutterPluginRecordPlugin: MethodCallHandler ,PluginRegistry.RequestPermis
   }
 
   private fun stop() {
-    audioHandler?.stopRecord()
+    if(audioHandler!=null){
+      if(audioHandler?.isRecording ==true){
+        audioHandler?.stopRecord()
+      }
+    }
     Log.d("android voice  ", "stop")
-
   }
 
   private fun start() {
     Log.d("android voice  ", "start")
     //        recorderUtil.startRecord();
-
     if(audioHandler?.isRecording ==true){
+      audioHandler?.startRecord(null);
       audioHandler?.stopRecord()
     }
     audioHandler?.startRecord(MessageRecordListener())
@@ -94,29 +112,20 @@ class FlutterPluginRecordPlugin: MethodCallHandler ,PluginRegistry.RequestPermis
   private fun init() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
       initPermission()
+    }else{
+      initRecord()
     }
   }
 
   private fun initPermission() {
     if (ContextCompat.checkSelfPermission(registrar.activity(), Manifest.permission.RECORD_AUDIO) !== PackageManager.PERMISSION_GRANTED) {
-      ActivityCompat.requestPermissions(registrar.activity(), arrayOf(Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE), MY_PERMISSIONS_REQUEST_CALL_PHONE)
+      ActivityCompat.requestPermissions(registrar.activity(), arrayOf(Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE), MY_PERMISSIONS_REQUEST_RECORD_AUDIO)
     } else {
       initRecord()
     }
-
   }
 
-  private fun initRecord() {
-    audioHandler = AudioHandler.createHandler(AudioHandler.Frequency.F_8000)
 
-    Log.d("android voice  ", "init")
-    val _id = _call.argument<String>("id")
-    val m1 = HashMap<String, String>()
-    m1["id"] = _id!!
-    m1["result"] = "success"
-    channel.invokeMethod("onInit", m1)
-
-  }
 
 
   private  inner class MessageRecordListener : AudioHandler.RecordListener {
@@ -171,8 +180,10 @@ class FlutterPluginRecordPlugin: MethodCallHandler ,PluginRegistry.RequestPermis
   }
 
 
+
+  // 权限监听回调
   override fun onRequestPermissionsResult(p0: Int, p1: Array<out String>?, p2: IntArray?): Boolean {
-    if (p0 == MY_PERMISSIONS_REQUEST_CALL_PHONE) {
+    if (p0 == MY_PERMISSIONS_REQUEST_RECORD_AUDIO) {
       if (p2?.get(0) == PackageManager.PERMISSION_GRANTED) {
         initRecord()
         return true
