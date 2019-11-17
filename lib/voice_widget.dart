@@ -7,27 +7,24 @@ class VoiceWidget extends StatefulWidget {
 }
 
 class _VoiceWidgetState extends State<VoiceWidget> {
-
-
-
   double starty = 0.0;
   double offset = 0.0;
   bool isUp = false;
   String textShow = "按住说话";
   String toastShow = "手指上滑,取消发送";
   String voiceIco = "images/voice_volume_1.png";
+
   ///默认隐藏状态
   bool voiceState = true;
   OverlayEntry overlayEntry;
   FlutterPluginRecord recordPlugin;
+
   @override
   void initState() {
     super.initState();
     recordPlugin = new FlutterPluginRecord();
 
     _init();
-
-
 
     ///初始化方法的监听
     recordPlugin.responseFromInit.listen((data) {
@@ -51,25 +48,25 @@ class _VoiceWidgetState extends State<VoiceWidget> {
     ///录制过程监听录制的声音的大小 方便做语音动画显示图片的样式
     recordPlugin.responseFromAmplitude.listen((data) {
       var voiceData = double.parse(data.msg);
-      var tempVoice = "";
-      if (voiceData > 0 && voiceData < 0.1) {
-        tempVoice = "images/voice_volume_2.png";
-      } else if (voiceData > 0.2 && voiceData < 0.3) {
-        tempVoice = "images/voice_volume_3.png";
-      } else if (voiceData > 0.3 && voiceData < 0.4) {
-        tempVoice = "images/voice_volume_4.png";
-      } else if (voiceData > 0.4 && voiceData < 0.5) {
-        tempVoice = "images/voice_volume_5.png";
-      } else if (voiceData > 0.5 && voiceData < 0.6) {
-        tempVoice = "images/voice_volume_6.png";
-      } else if (voiceData > 0.6 && voiceData < 0.7) {
-        tempVoice = "images/voice_volume_7.png";
-      } else if (voiceData > 0.7 && voiceData < 1) {
-        tempVoice = "images/voice_volume_7.png";
-      }
       setState(() {
-        voiceIco = tempVoice;
-        if(overlayEntry!=null){
+        if (voiceData > 0 && voiceData < 0.1) {
+          voiceIco = "images/voice_volume_2.png";
+        } else if (voiceData > 0.2 && voiceData < 0.3) {
+          voiceIco = "images/voice_volume_3.png";
+        } else if (voiceData > 0.3 && voiceData < 0.4) {
+          voiceIco = "images/voice_volume_4.png";
+        } else if (voiceData > 0.4 && voiceData < 0.5) {
+          voiceIco = "images/voice_volume_5.png";
+        } else if (voiceData > 0.5 && voiceData < 0.6) {
+          voiceIco = "images/voice_volume_6.png";
+        } else if (voiceData > 0.6 && voiceData < 0.7) {
+          voiceIco = "images/voice_volume_7.png";
+        } else if (voiceData > 0.7 && voiceData < 1) {
+          voiceIco = "images/voice_volume_7.png";
+        } else {
+          voiceIco = "images/voice_volume_1.png";
+        }
+        if (overlayEntry != null) {
           overlayEntry.markNeedsBuild();
         }
       });
@@ -77,8 +74,6 @@ class _VoiceWidgetState extends State<VoiceWidget> {
       print("振幅大小   " + voiceData.toString() + "  " + voiceIco);
     });
   }
-
-
 
   ///显示录音悬浮布局
   buildOverLayView(BuildContext context) {
@@ -88,6 +83,7 @@ class _VoiceWidgetState extends State<VoiceWidget> {
           top: MediaQuery.of(context).size.height * 0.5 - 80,
           left: MediaQuery.of(context).size.width * 0.5 - 80,
           child: Material(
+            type: MaterialType.transparency,
             child: Center(
               child: Opacity(
                 opacity: 0.8,
@@ -106,7 +102,7 @@ class _VoiceWidgetState extends State<VoiceWidget> {
                           voiceIco,
                           width: 100,
                           height: 100,
-                          package: "flutter_plugin_record",
+                          package: 'flutter_plugin_record',
                         ),
                       ),
                       Container(
@@ -114,7 +110,7 @@ class _VoiceWidgetState extends State<VoiceWidget> {
                         child: Text(
                           toastShow,
                           style: TextStyle(
-                            fontStyle:FontStyle.normal ,
+                            fontStyle: FontStyle.normal,
                             color: Colors.white,
                             fontSize: 14,
                           ),
@@ -153,7 +149,6 @@ class _VoiceWidgetState extends State<VoiceWidget> {
       overlayEntry = null;
     }
 
-
     if (isUp) {
       print("取消发送");
     } else {
@@ -174,7 +169,6 @@ class _VoiceWidgetState extends State<VoiceWidget> {
       }
     });
   }
-
 
   ///初始化语音录制的方法
   void _init() async {
@@ -222,7 +216,7 @@ class _VoiceWidgetState extends State<VoiceWidget> {
 
   @override
   void dispose() {
-    if(recordPlugin!=null){
+    if (recordPlugin != null) {
       recordPlugin.dispose();
     }
     super.dispose();
