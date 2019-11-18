@@ -131,7 +131,7 @@
 <iframe 
     height=450 
     width=800 
-    src=".README_images/Screenrecorder-2019-11-18-09-53-42-874.mp4" 
+    src="https://github.com/yxwandroid/flutter_plugin_record/blob/master/.README_images/Screenrecorder-2019-11-18-09-53-42-874.mp4" 
     frameborder=0 
     allowfullscreen>
 </iframe>
