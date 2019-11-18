@@ -123,7 +123,11 @@
 <!--![](.README_images/gifeditor_20191108_164610.gif)-->
 
 
-[![Watch the video](.README_images/a0bb408b.png)](.README_images/Screenrecorder-2019-11-18-09-53-42-874.mp4)
+<!--[![Watch the video](.README_images/a0bb408b.png)](.README_images/Screenrecorder-2019-11-18-09-53-42-874.mp4)-->
+
+[![Watch the video](.README_images/a0bb408b.png)](https://github.com/yxwandroid/flutter_plugin_record/blob/master/.README_images/Screenrecorder-2019-11-18-09-53-42-874.mp4)
+
+
 
 <!--![](https://github.com/yxwandroid/flutter_plugin_record/blob/master/gifeditor_20191108_164610.gif?raw=true)-->
 
