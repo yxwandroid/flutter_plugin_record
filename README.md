@@ -123,12 +123,13 @@
 
 android效果
 
-![](.README_images/video2gif_20191118_101627.gif)
+<!--![](.README_images/video2gif_20191118_101627.gif)-->
+<img src=".README_images/video2gif_20191118_101627.gif" width="400"  align=center />
 
 IOS效果
 
 <!--![](.README_images/ios.gif)-->
-<img src=".README_images/ios.gif" width="200" hegiht="313" align=center />
+<img src=".README_images/ios.gif" width="400"  align=center />
 
 
 
