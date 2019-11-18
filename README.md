@@ -121,8 +121,15 @@
 
 组件使用效果
 
+android效果
 
 ![](.README_images/video2gif_20191118_101627.gif)
+
+IOS效果
+
+![](.README_images/ios.gif)
+
+
 
 
 ### 1,在使用的页面进行导入package
