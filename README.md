@@ -18,18 +18,24 @@
 ## 1,引入
 在pubspec.yaml 文件上引入如下配置
 
+
     引入方式1(引入最新的版本)
     flutter_plugin_record:
         git:
           url: https://github.com/yxwandroid/flutter_plugin_record.git
     
-    引入方式二 (引入指定某次commit)
+    引入方式2 (引入指定某次commit)
     flutter_plugin_record:
         git:
           url: https://github.com/yxwandroid/flutter_plugin_record.git
           ref: 29c02b15835907879451ad9f8f88c357149c6085
           
+    引入方式3 (引入Flutter仓库的library)
           
+    dependencies:
+      flutter_plugin_record: ^0.0.3
+              
+              
           
           
           
