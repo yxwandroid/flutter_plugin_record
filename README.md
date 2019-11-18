@@ -127,7 +127,9 @@ android效果
 
 IOS效果
 
-![](.README_images/ios.gif)
+<!--![](.README_images/ios.gif)-->
+<img src=".README_images/ios.gif" width="200" hegiht="313" align=center />
+
 
 
 
