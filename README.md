@@ -130,14 +130,12 @@
 android效果
 
 <!--![](.README_images/video2gif_20191118_101627.gif)-->
-<!--<img src=".README_images/video2gif_20191118_101627.gif" width="400"  align=center />-->
-<img src="https://github.com/yxwandroid/flutter_plugin_record/blob/master/.README_images/video2gif_20191118_101627.gif" width="400"  align=center />
+<img src=".README_images/video2gif_20191118_101627.gif" width="400"  align=center />
 
 IOS效果
 
 <!--![](.README_images/ios.gif)-->
-<!--<img src=".README_images/ios.gif" width="400"  align=center />-->
-<img src="https://github.com/yxwandroid/flutter_plugin_record/blob/master/.README_images/ios.gif" width="400"  align=center />
+<img src=".README_images/ios.gif" width="400"  align=center />
 
 
 
@@ -166,5 +164,5 @@ IOS效果
 
 ## 关注公众号获取更多内容
 
-<img src="https://github.com/yxwandroid/flutter_plugin_record/raw/master/.README_images/f53502b3.png" width="200" hegiht="313" align=center />
+<img src=".README_images/f53502b3.png" width="200" hegiht="313" align=center />
 
