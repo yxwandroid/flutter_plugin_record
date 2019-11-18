@@ -115,10 +115,13 @@
      
 ## 2,录制组件的使用
  组件使用效果
- 
+
 -------
 
-![](https://github.com/yxwandroid/flutter_plugin_record/blob/master/gifeditor_20191108_164610.gif?raw=true)
+![](.README_images/gifeditor_20191108_164610.gif)
+![](.README_images/gifeditor_20191108_164610.gif?raw=true)
+
+<!--![](https://github.com/yxwandroid/flutter_plugin_record/blob/master/gifeditor_20191108_164610.gif?raw=true)-->
 
 ### 1,在使用的页面进行导入package
 
