@@ -148,5 +148,5 @@
 
 ## 关注公众号获取更多内容
 
-<img src=".README_images/a0bb408b.png" width="200" hegiht="313" align=center />
+<img src=".README_images/f53502b3.png" width="200" hegiht="313" align=center />
 
