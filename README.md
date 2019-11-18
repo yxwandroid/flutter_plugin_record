@@ -1,6 +1,8 @@
 # 使用Flutter实现 仿微信录音的插件 
 插件支持android 和IOS
 
+[TOC]
+
 -------
 插件提供的功能
 
@@ -9,7 +11,7 @@
 3. 录制声音大小的监听
 3. 提供类似微信的录制组件
 
-[TOC]
+
 
 ## 1,引入
 在pubspec.yaml 文件上引入如下配置
@@ -118,8 +120,10 @@
 
 -------
 
-![](.README_images/gifeditor_20191108_164610.gif)
-![](.README_images/gifeditor_20191108_164610.gif?raw=true)
+<!--![](.README_images/gifeditor_20191108_164610.gif)-->
+
+
+[![Watch the video](.README_images/a0bb408b.png)](.README_images/Screenrecorder-2019-11-18-09-53-42-874.mp4)
 
 <!--![](https://github.com/yxwandroid/flutter_plugin_record/blob/master/gifeditor_20191108_164610.gif?raw=true)-->
 
@@ -143,4 +147,8 @@
 * [x] 优化代码
 * [x] 实现录制完成文件路径回调功能,方面使用者可以把录音文件上传服务器
 
+
+## 关注公众号获取更多内容
+
+<img src=".README_images/a0bb408b.png" width="200" hegiht="313" align=center />
 
