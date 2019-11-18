@@ -118,37 +118,12 @@
     
      
 ## 2,录制组件的使用
- 组件使用效果
 
--------
-
-<!--![](.README_images/gifeditor_20191108_164610.gif)-->
+组件使用效果
 
 
-<!--[![Watch the video](.README_images/a0bb408b.png)](.README_images/Screenrecorder-2019-11-18-09-53-42-874.mp4)-->
+![](.README_images/video2gif_20191118_101627.gif)
 
-<!--[![Watch the video](.README_images/a0bb408b.png)](https://github.com/yxwandroid/flutter_plugin_record/blob/master/.README_images/Screenrecorder-2019-11-18-09-53-42-874.mp4)-->
-
-
-
-
-
-<!--<iframe -->
-<!--    height=450 -->
-<!--    width=800 -->
-<!--    src="https://github.com/yxwandroid/flutter_plugin_record/blob/master/.README_images/Screenrecorder-2019-11-18-09-53-42-874.mp4" -->
-<!--    frameborder=0 -->
-<!--    allowfullscreen>-->
-<!--</iframe>-->
-
-
-<video src="https://blog.niostack.com/rewu.mp4" controls="controls" width="640" height="320" autoplay="autoplay">
-Your browser does not support the video tag.
-</video>
-
-
-
-<!--![](https://github.com/yxwandroid/flutter_plugin_record/blob/master/gifeditor_20191108_164610.gif?raw=true)-->
 
 ### 1,在使用的页面进行导入package
 
