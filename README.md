@@ -1,7 +1,9 @@
+[TOC]
+
+
 # 使用Flutter实现 仿微信录音的插件 
 插件支持android 和IOS
 
-[TOC]
 
 -------
 插件提供的功能
@@ -128,6 +130,9 @@
 <!--[![Watch the video](.README_images/a0bb408b.png)](https://github.com/yxwandroid/flutter_plugin_record/blob/master/.README_images/Screenrecorder-2019-11-18-09-53-42-874.mp4)-->
 
 
+
+
+
 <iframe 
     height=450 
     width=800 
@@ -135,6 +140,9 @@
     frameborder=0 
     allowfullscreen>
 </iframe>
+
+
+
 
 
 
