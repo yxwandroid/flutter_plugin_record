@@ -1,8 +1,8 @@
 name: flutter_plugin_record
-description: A new Flutter plugin.
-version: 0.0.1
-author:
-homepage:
+description: flutter仿微信语音插件
+version: 0.0.2
+author:  wilson <yxw_android@163.com>
+homepage: https://github.com/yxwandroid/flutter_plugin_record
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
