@@ -133,16 +133,18 @@
 
 
 
-<iframe 
-    height=450 
-    width=800 
-    src="https://github.com/yxwandroid/flutter_plugin_record/blob/master/.README_images/Screenrecorder-2019-11-18-09-53-42-874.mp4" 
-    frameborder=0 
-    allowfullscreen>
-</iframe>
+<!--<iframe -->
+<!--    height=450 -->
+<!--    width=800 -->
+<!--    src="https://github.com/yxwandroid/flutter_plugin_record/blob/master/.README_images/Screenrecorder-2019-11-18-09-53-42-874.mp4" -->
+<!--    frameborder=0 -->
+<!--    allowfullscreen>-->
+<!--</iframe>-->
 
 
-
+<video src="https://blog.niostack.com/rewu.mp4" controls="controls" width="640" height="320" autoplay="autoplay">
+Your browser does not support the video tag.
+</video>
 
 
 
