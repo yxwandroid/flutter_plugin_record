@@ -12,3 +12,7 @@
 ## 0.0.4
 
 *  添加example readme 
+
+## 0.0.5
+
+*  添加 readme 说明 
