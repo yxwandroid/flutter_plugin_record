@@ -155,12 +155,31 @@ IOS效果
     
     
     
+    
+## IOS配置注意事项
+ 
+### ios集成的的时候需要在info.list添加 
+ 
+     
+     <key>NSMicrophoneUsageDescription</key>
+            <string>打开话筒</string>
+     
+ 
+### 若IOS主工程的是oc项目的话 需要在主项目的podfile文件最顶部添加如下代码  
+ 
+ 
+    use_frameworks!
+ 
+ 
+[OC项目集成 参考](https://blog.csdn.net/qq_28478281/article/details/90719051) 
+
+    
 ## TODO
 
 * [x] 优化代码
 * [x] 实现发送语音时间按下抬起时间很短提示
 * [x] 实现录制完成文件路径回调功能,方面使用者可以把录音文件上传服务器
-* [x] 研究插件是否有录制时间
+* [x] 研究插件实现录制时间记录
 
 
 ## 关注公众号获取更多内容

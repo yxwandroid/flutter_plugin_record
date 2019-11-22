@@ -79,7 +79,7 @@ public class SwiftFlutterPluginRecordPlugin: NSObject, FlutterPlugin {
          }
          DPAudioRecorder.sharedInstance()?.audioRecordingFail = { (reason) in
              
-             print("录制失败")
+             print("reason")
              
          }
          DPAudioRecorder.sharedInstance()?.audioSpeakPower = {(power)in
