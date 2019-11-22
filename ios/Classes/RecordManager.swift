@@ -32,9 +32,9 @@ class RecordManager {
       //  try! session.setCategory(AVAudioSession.Category.playAndRecord)
         do {
             if #available(iOS 10.0, *) {
-                try session.setCategory(AVAudioSessionCategoryPlayAndRecord, mode: AVAudioSessionModeVoiceChat, options: AVAudioSessionCategoryOptions.mixWithOthers)
+                try session.setCategory(AVAudioSession.Category.playAndRecord, mode: AVAudioSession.Mode.voiceChat, options: AVAudioSession.CategoryOptions.mixWithOthers)
             } else {
-                try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
+                try session.setCategory(AVAudioSession.Category.playAndRecord)
                 // Fallback on earlier versions
             }
             try session.overrideOutputAudioPort(.none)
