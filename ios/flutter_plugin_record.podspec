@@ -1,7 +1,7 @@
 #
 # To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html
 #
-use_frameworks!
+#use_frameworks!
 Pod::Spec.new do |s|
   s.name             = 'flutter_plugin_record'
   s.version          = '0.0.1'
