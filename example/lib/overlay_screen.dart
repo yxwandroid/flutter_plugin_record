@@ -52,6 +52,16 @@ class _OverLayScreenState extends State<OverLayScreen> {
     }
   }
 
+
+  startRecord(){
+    print("111开始录制");
+  }
+
+  stopRecord(String path){
+    print("111结束录制");
+    print(path);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,7 +94,7 @@ class _OverLayScreenState extends State<OverLayScreen> {
                   });
                 },
                 child: new Text("悬浮窗状态更新")),
-            new VoiceWidget(),
+            new VoiceWidget(startRecord: startRecord,stopRecord: stopRecord),
           ],
         ),
       ),

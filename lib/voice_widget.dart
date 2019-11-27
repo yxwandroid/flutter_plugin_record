@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_plugin_record/flutter_plugin_record.dart';
 
+typedef startRecord = Future Function();
+typedef stopRecord = Future Function();
+
 class VoiceWidget extends StatefulWidget {
+  Function startRecord;
+  Function stopRecord;
+
   @override
   _VoiceWidgetState createState() => _VoiceWidgetState();
+
+  VoiceWidget({startRecord: Function, stopRecord: Function}) {
+    this.startRecord = startRecord;
+    this.stopRecord = stopRecord;
+  }
 }
 
 class _VoiceWidgetState extends State<VoiceWidget> {
@@ -40,8 +51,10 @@ class _VoiceWidgetState extends State<VoiceWidget> {
       if (data.msg == "onStop") {
         ///结束录制时会返回录制文件的地址方便上传服务器
         print("onStop  " + data.path);
+        widget.stopRecord(data.path);
       } else if (data.msg == "onStart") {
         print("onStart --");
+        widget.startRecord();
       }
     });
 
