@@ -38,7 +38,7 @@ public class SwiftFlutterPluginRecordPlugin: NSObject, FlutterPlugin {
          default:
              result(FlutterMethodNotImplemented)
              break;
-             
+    
          }
      }
      

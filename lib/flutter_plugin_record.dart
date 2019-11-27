@@ -22,7 +22,6 @@ class FlutterPluginRecord {
       [Map<String, dynamic> arguments = const {}]) {
     Map<String, dynamic> withId = Map.of(arguments);
     withId['id'] = id;
-    print("--------FlutterPluginRecord _invokeMethod");
     return _channel.invokeMethod(method, withId);
   }
 
@@ -43,7 +42,7 @@ class FlutterPluginRecord {
 
    ///原生回调
    static Future<dynamic> _handler(MethodCall methodCall) {
-     print("--------FlutterPluginRecord _handler");
+     print("--------FlutterPluginRecord "+methodCall.method);
 
      String id = (methodCall.arguments as Map)['id'];
      FlutterPluginRecord recordPlugin = alis[id];

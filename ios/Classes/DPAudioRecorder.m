@@ -82,8 +82,8 @@ static DPAudioRecorder *recorderManager = nil;
         if (![[NSFileManager defaultManager] fileExistsAtPath:convertedWaveFilePath]) {
             [[NSData data] writeToFile:convertedWaveFilePath atomically:YES];
         }
-        printf("录制文件路径");
-        printf("%s", wavRecordFilePath);
+        NSLog(@"录制文件路径 %@",wavRecordFilePath);
+    
     }
     return self;
 }
@@ -161,7 +161,7 @@ static DPAudioRecorder *recorderManager = nil;
         
         //暂存录音文件路径
         NSString *wavRecordFilePath = self.originWaveFilePath;
-        printf("%s", wavRecordFilePath);
+        NSLog(@"%@", wavRecordFilePath);
         NSDictionary *param =
         @{AVSampleRateKey:@8000.0,    //采样率
           AVFormatIDKey:@(kAudioFormatLinearPCM),//音频格式
@@ -190,9 +190,7 @@ static DPAudioRecorder *recorderManager = nil;
 {
     //暂存录音文件路径
     NSString *wavRecordFilePath = self.originWaveFilePath;
-    NSLog(@"录音暂存位置 ");
-    
-    NSLog(wavRecordFilePath);
+    NSLog(@"录音暂存位置 %@ ",wavRecordFilePath);
     NSData *cacheAudioData;
     switch (preferredVoiceType) {
         case CSVoiceTypeWav:

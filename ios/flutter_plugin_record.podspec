@@ -1,7 +1,7 @@
 #
 # To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html
 #
-use_frameworks!
+#use_frameworks!
 Pod::Spec.new do |s|
   s.name             = 'flutter_plugin_record'
   s.version          = '0.0.1'
@@ -13,7 +13,7 @@ A new Flutter plugin.
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'Your Company' => 'email@example.com' }
   s.source           = { :path => '.' }
-  s.swift_version = '4.2'
+ # s.swift_version = '4.2'
 #  s.source_files = 'Classes/**/*'
   s.source_files = 'Classes/**/*.{h,m,swift}'
   s.public_header_files = 'Classes/**/*.h'

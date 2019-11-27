@@ -31,6 +31,8 @@ class _SecondScreenState extends State<SecondScreen> {
         print("onStop  " + data.path);
       } else if (data.msg == "onStart") {
         print("onStart --");
+      }else{
+        print("--"+data.msg);
       }
     });
 

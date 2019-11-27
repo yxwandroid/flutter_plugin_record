@@ -119,11 +119,11 @@ static DPAudioPlayer *playerManager = nil;
     NSLog(@"");
 }
 
-- (void)audioPlayerBeginInterruption:(AVAudioPlayer *)player
-{
-    isPlaying = NO;
-    [player stop];
-}
+//- (void)audioPlayerBeginInterruption:(AVAudioPlayer *)player
+//{
+//    isPlaying = NO;
+//    [player stop];
+//}
 
 ////转换amr文件类型data为wav文件类型data
 //- (NSData *)conversionAMRDataToWAVData:(NSData *)amrData

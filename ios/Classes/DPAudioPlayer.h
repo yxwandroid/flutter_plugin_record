@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void(^PlayCompleteBlock)();
+typedef void(^PlayCompleteBlock)(void);
 
 typedef void(^StartPlayingBlock)(BOOL isPlaying);
 
