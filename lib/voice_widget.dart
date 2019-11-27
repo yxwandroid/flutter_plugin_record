@@ -11,6 +11,7 @@ class VoiceWidget extends StatefulWidget {
   @override
   _VoiceWidgetState createState() => _VoiceWidgetState();
 
+  /// startRecord 开始录制回调  stopRecord回调
   VoiceWidget({startRecord: Function, stopRecord: Function}) {
     this.startRecord = startRecord;
     this.stopRecord = stopRecord;

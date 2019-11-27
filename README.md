@@ -33,7 +33,7 @@
     引入方式3 (引入Flutter仓库的library)
           
     dependencies:
-      flutter_plugin_record: ^0.0.7
+      flutter_plugin_record: ^0.0.8
               
               
           
@@ -151,11 +151,19 @@ IOS效果
     
 ### 2,在使用的地方引入VoiceWidget组件
     
-    new VoiceWidget(),
+    VoiceWidget(),
     
     
+    VoiceWidget({startRecord: Function, stopRecord: Function}) {
     
+   
     
+startRecord 开始录制的回调 
+
+stopRecord 停止录制的回调 返回的path是录制成功之后文件的保存地址
+
+    
+     
 ## IOS配置注意事项
  
 ### ios集成的的时候需要在info.list添加 
@@ -164,14 +172,9 @@ IOS效果
      <key>NSMicrophoneUsageDescription</key>
             <string>打开话筒</string>
      
+
+
  
-### 若IOS主工程的是oc项目的话 需要在主项目的podfile文件最顶部添加如下代码  
- 
- 
-    use_frameworks!
- 
- 
-[OC项目集成 参考](https://blog.csdn.net/qq_28478281/article/details/90719051) 
 
     
 ## TODO
