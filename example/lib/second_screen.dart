@@ -28,7 +28,8 @@ class _SecondScreenState extends State<SecondScreen> {
     recordPlugin.response.listen((data) {
       if (data.msg == "onStop") {
         ///结束录制时会返回录制文件的地址方便上传服务器
-        print("onStop  " + data.path);
+        print("onStop  时长" + data.path);
+        print("onStop  时长 " + data.audioTimeLength.toString());
       } else if (data.msg == "onStart") {
         print("onStart --");
       }else{

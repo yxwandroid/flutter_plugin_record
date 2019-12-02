@@ -71,6 +71,7 @@ class FlutterPluginRecord {
            RecordResponse res = new RecordResponse(
              success: true,
              path: methodCall.arguments["voicePath"].toString(),
+             audioTimeLength:double.parse(methodCall.arguments["audioTimeLength"]),
              msg: "onStop",
              key: methodCall.arguments["key"].toString(),
            );

@@ -52,7 +52,7 @@ class _VoiceWidgetState extends State<VoiceWidget> {
       if (data.msg == "onStop") {
         ///结束录制时会返回录制文件的地址方便上传服务器
         print("onStop  " + data.path);
-        widget.stopRecord(data.path);
+        widget.stopRecord(data.path,data.audioTimeLength);
       } else if (data.msg == "onStart") {
         print("onStart --");
         widget.startRecord();

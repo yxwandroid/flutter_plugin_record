@@ -20,6 +20,9 @@ import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import record.wilson.flutter.com.flutter_plugin_record.timer.ITimerChangeCallback;
+import record.wilson.flutter.com.flutter_plugin_record.timer.TimerUtils;
+
 /**
  * Created by hong.lin on 2017/6/22.
  */
@@ -148,6 +151,21 @@ public final class AudioHandler extends Handler {
         private       Looper           mLooper;
 
         private volatile boolean isCancel;
+        private String tag = "AudioTimerTag";
+
+        private long audioTime = 0;  //录音时长
+
+        //--设置 tag 后可以通过 tag 操作--
+        private void initTimer() {
+            TimerUtils.makeBuilder().setTag(tag).setInitDelay(0).setDelay(1000).setCallbacks(new ITimerChangeCallback() {
+                @Override
+                public void onTimeChange(long time) {
+                    //Log.v("AudioTimerTag", time + "--> AudioTimer");
+                    audioTime = time;
+                }
+            }).build();
+
+        }
 
         private AudioThread(Frequency frequency) {
             mPriority = Process.THREAD_PRIORITY_DEFAULT;
@@ -159,6 +177,7 @@ public final class AudioHandler extends Handler {
                 bufferSize = AudioRecord.getMinBufferSize(mFrequency, channel, audioFormat);
                 Log.e(TAG, String.format("buffer size %d", bufferSize));
             }
+            initTimer();
         }
 
         boolean isRecording() {
@@ -174,6 +193,9 @@ public final class AudioHandler extends Handler {
         private volatile boolean isRecording;
 
         private void startRecord(RecordListener listener) {
+
+            audioTime =0;
+            TimerUtils.startTimer(tag);
             Log.e(TAG, "call start record");
             if (!isAvailable) {
                 return;
@@ -253,7 +275,9 @@ public final class AudioHandler extends Handler {
                     recordFile.deleteOnExit();
                     recordFile = null;
                 }
-                listener.onStop(recordFile);
+                TimerUtils.stopTimer(tag);
+//                listener.onStop(recordFile);
+                listener.onStop(recordFile, audioTime);
             }
         }
 
@@ -394,8 +418,8 @@ public final class AudioHandler extends Handler {
 
         void onVolume(double db);
 
-        void onStop(File recordFile);
-
+//        void onStop(File recordFile);
+        void onStop(File recordFile,Long audioTime);
         void onError(int error);
     }
 

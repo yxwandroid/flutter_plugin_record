@@ -66,6 +66,7 @@
                                      @"success", @"result",
                                      mId, @"id",
                                      path, @"voicePath",
+                                     [NSString stringWithFormat:@"%.20lf", audioTimeLength], @"audioTimeLength",
                                       nil];
         [self->_channel invokeMethod:@"onStop" arguments:dict3];
         

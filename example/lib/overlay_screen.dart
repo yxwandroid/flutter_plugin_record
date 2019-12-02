@@ -57,9 +57,10 @@ class _OverLayScreenState extends State<OverLayScreen> {
     print("111开始录制");
   }
 
-  stopRecord(String path){
-    print("111结束录制");
-    print(path);
+  stopRecord(String path,double audioTimeLength ){
+    print("结束束录制");
+    print("音频文件位置"+path);
+    print("音频录制时长"+audioTimeLength.toString());
   }
 
   @override

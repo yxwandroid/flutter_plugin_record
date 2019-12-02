@@ -129,6 +129,18 @@ class FlutterPluginRecordPlugin: MethodCallHandler ,PluginRegistry.RequestPermis
 
 
   private  inner class MessageRecordListener : AudioHandler.RecordListener {
+    override fun onStop(recordFile: File?, audioTime: Long?) {
+      LogUtils.LOGE("MessageRecordListener onStop $recordFile")
+      voicePlayPath = recordFile!!.path
+      val _id = _call.argument<String>("id")
+      val m1 = HashMap<String, String>()
+      m1["id"] = _id!!
+      m1["voicePath"] = voicePlayPath
+      m1["audioTimeLength"] = audioTime.toString()
+      m1["result"] = "success"
+
+      registrar.activity().runOnUiThread { channel.invokeMethod("onStop", m1) }
+    }
 
 
     override fun getFilePath(): String {
@@ -162,17 +174,17 @@ class FlutterPluginRecordPlugin: MethodCallHandler ,PluginRegistry.RequestPermis
 
     }
 
-    override fun onStop(recordFile: File) {
-      LogUtils.LOGE("MessageRecordListener onStop $recordFile")
-      voicePlayPath = recordFile.path
-      val _id = _call.argument<String>("id")
-      val m1 = HashMap<String, String>()
-      m1["id"] = _id!!
-      m1["voicePath"] = voicePlayPath
-      m1["result"] = "success"
-
-      registrar.activity().runOnUiThread { channel.invokeMethod("onStop", m1) }
-    }
+//    override fun onStop(recordFile: File) {
+//      LogUtils.LOGE("MessageRecordListener onStop $recordFile")
+//      voicePlayPath = recordFile.path
+//      val _id = _call.argument<String>("id")
+//      val m1 = HashMap<String, String>()
+//      m1["id"] = _id!!
+//      m1["voicePath"] = voicePlayPath
+//      m1["result"] = "success"
+//
+//      registrar.activity().runOnUiThread { channel.invokeMethod("onStop", m1) }
+//    }
 
     override fun onError(error: Int) {
       LogUtils.LOGE("MessageRecordListener onError $error")
