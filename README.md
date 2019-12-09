@@ -131,12 +131,12 @@
 android效果
 
 <!--![](.README_images/video2gif_20191118_101627.gif)-->
-<img src=".README_images/video2gif_20191118_101627.gif" width="400"  align=center />
+<img src="README_images/video2gif_20191118_101627.gif" width="400"  align=center />
 
 IOS效果
 
 <!--![](.README_images/ios.gif)-->
-<img src=".README_images/ios.gif" width="400"  align=center />
+<img src="README_images/ios.gif" width="400"  align=center />
 
 
 
@@ -193,5 +193,5 @@ stopRecord 停止录制的回调 返回的path是录制成功之后文件的保�
 
 ## 关注公众号获取更多内容
 
-<img src=".README_images/f53502b3.png" width="200" hegiht="313" align=center />
+<img src="README_images/f53502b3.png" width="200" hegiht="313" align=center />
 
