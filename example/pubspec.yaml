@@ -1,5 +1,5 @@
 name: flutter_plugin_record_example
-description: Demonstrates how to use the flutter_plugin_record plugin.
+description: The flutter voice recording plug-in,provides the recording animation and the recording successfully returns to the recording file path
 publish_to: 'none'
 
 environment:

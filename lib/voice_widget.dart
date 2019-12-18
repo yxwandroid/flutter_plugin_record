@@ -5,17 +5,15 @@ typedef startRecord = Future Function();
 typedef stopRecord = Future Function();
 
 class VoiceWidget extends StatefulWidget {
-  Function startRecord;
-  Function stopRecord;
+  final Function startRecord;
+  final Function stopRecord;
+
+  /// startRecord 开始录制回调  stopRecord回调
+  const VoiceWidget({Key key, this.startRecord, this.stopRecord})
+      : super(key: key);
 
   @override
   _VoiceWidgetState createState() => _VoiceWidgetState();
-
-  /// startRecord 开始录制回调  stopRecord回调
-  VoiceWidget({startRecord: Function, stopRecord: Function}) {
-    this.startRecord = startRecord;
-    this.stopRecord = stopRecord;
-  }
 }
 
 class _VoiceWidgetState extends State<VoiceWidget> {
@@ -52,7 +50,7 @@ class _VoiceWidgetState extends State<VoiceWidget> {
       if (data.msg == "onStop") {
         ///结束录制时会返回录制文件的地址方便上传服务器
         print("onStop  " + data.path);
-        widget.stopRecord(data.path,data.audioTimeLength);
+        widget.stopRecord(data.path, data.audioTimeLength);
       } else if (data.msg == "onStart") {
         print("onStart --");
         widget.startRecord();
