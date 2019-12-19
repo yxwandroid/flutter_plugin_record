@@ -53,6 +53,7 @@ class FlutterPluginRecordPlugin: MethodCallHandler ,PluginRegistry.RequestPermis
       "start" -> start()
       "stop" -> stop()
       "play" -> play()
+      "playByPath" -> playByPath()
       else -> result.notImplemented()
     }
   }
@@ -76,6 +77,18 @@ class FlutterPluginRecordPlugin: MethodCallHandler ,PluginRegistry.RequestPermis
   private fun play() {
     val recorderUtil = RecorderUtil(voicePlayPath)
     recorderUtil.playVoice()
+    Log.d("android voice  ", "play")
+    val _id = _call.argument<String>("id")
+    val m1 = HashMap<String, String>()
+    m1["id"] = _id!!
+    channel.invokeMethod("onPlay", m1)
+  }
+
+  private fun playByPath() {
+    val path = _call.argument<String>("path")
+    val recorderUtil = RecorderUtil(path)
+    recorderUtil.playVoice()
+
     Log.d("android voice  ", "play")
     val _id = _call.argument<String>("id")
     val m1 = HashMap<String, String>()

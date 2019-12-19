@@ -138,6 +138,13 @@ class FlutterPluginRecord {
     });
   }
 
+  Future playByPath(String path) async {
+    return await _invokeMethod('playByPath', <String, String>{
+      "play": "play",
+      "path": path,
+    });
+  }
+
   dispose() {
     _responseInitController.close();
     _responseController.close();

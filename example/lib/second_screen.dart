@@ -9,6 +9,7 @@ class SecondScreen extends StatefulWidget {
 class _SecondScreenState extends State<SecondScreen> {
   FlutterPluginRecord recordPlugin = new FlutterPluginRecord();
 
+  String  filePath ="";
 
   @override
   void initState() {
@@ -28,7 +29,8 @@ class _SecondScreenState extends State<SecondScreen> {
     recordPlugin.response.listen((data) {
       if (data.msg == "onStop") {
         ///结束录制时会返回录制文件的地址方便上传服务器
-        print("onStop  时长" + data.path);
+        print("onStop  文件路径" + data.path);
+        filePath = data.path;
         print("onStop  时长 " + data.audioTimeLength.toString());
       } else if (data.msg == "onStart") {
         print("onStart --");
@@ -79,6 +81,12 @@ class _SecondScreenState extends State<SecondScreen> {
                 play();
               },
             ),
+            FlatButton(
+              child: Text("播放本地指定路径录音文件"),
+              onPressed: () {
+                playByPath(filePath);
+              },
+            ),
           ],
         ),
       ),
@@ -104,6 +112,11 @@ class _SecondScreenState extends State<SecondScreen> {
   void play() {
     recordPlugin.play();
   }
+  ///播放指定路径录音文件
+  void playByPath(String path) {
+    recordPlugin.playByPath(path);
+  }
+
 
   @override
   void dispose() {

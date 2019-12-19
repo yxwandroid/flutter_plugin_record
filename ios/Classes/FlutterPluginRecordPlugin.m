@@ -48,10 +48,12 @@
         [self stop ];
     }else if([@"play" isEqualToString:method]){
         [self play ];
+    }else if([@"playByPath" isEqualToString:method]){
+         [self playByPath];
     }else{
       result(FlutterMethodNotImplemented);
     }
-    
+
 }
 
 - (void) initRecord{
@@ -126,6 +128,24 @@
     NSDictionary *dict3 = [NSDictionary dictionaryWithObjectsAndKeys:@"success",@"result",mId,@"id", nil];
     [_channel invokeMethod:@"onPlay" arguments:dict3];
 }
+
+- (void) playByPath{
+    
+    NSLog(@"ios  voice   play");
+    NSDictionary *args =   [_call arguments];
+    NSString *filePath = [args valueForKey:@"path"];
+    NSData* data= [NSData dataWithContentsOfFile:filePath];
+    
+    [DPAudioPlayer.sharedInstance startPlayWithData:data];
+    DPAudioPlayer.sharedInstance.playComplete = ^void(){
+        NSLog(@"播放完成");
+    };
+    
+    NSString *mId = [args valueForKey:@"id"];
+    NSDictionary *dict3 = [NSDictionary dictionaryWithObjectsAndKeys:@"success",@"result",mId,@"id", nil];
+    [_channel invokeMethod:@"onPlay" arguments:dict3];
+}
+
 
 @end
 
