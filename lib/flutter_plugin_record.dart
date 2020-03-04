@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:flutter_plugin_record/play_state.dart';
 import 'package:flutter_plugin_record/response.dart';
 import 'package:uuid/uuid.dart';
 
@@ -44,6 +45,13 @@ class FlutterPluginRecord {
 
   Stream<RecordResponse> get responseFromAmplitude =>
       _responseAmplitudeController.stream;
+
+  ///播放状态监听
+  StreamController<PlayState> _responsePlayStateController =
+      new StreamController.broadcast();
+
+  Stream<PlayState> get responsePlayStateController =>
+      _responsePlayStateController.stream;
 
   ///原生回调
   static Future<dynamic> _handler(MethodCall methodCall) {
@@ -105,6 +113,12 @@ class FlutterPluginRecord {
           recordPlugin._responseAmplitudeController.add(res);
         }
         break;
+      case "onPlayState":
+        var playState = methodCall.arguments["playState"];
+        var playPath = methodCall.arguments["playPath"];
+        PlayState res = new PlayState(playState, playPath);
+        recordPlugin._responsePlayStateController.add(res);
+        break;
       default:
         print("default");
         break;
@@ -149,5 +163,6 @@ class FlutterPluginRecord {
     _responseInitController.close();
     _responseController.close();
     _responseAmplitudeController.close();
+    _responsePlayStateController.close();
   }
 }

@@ -3,7 +3,6 @@ package record.wilson.flutter.com.flutter_plugin_record.utils;
 import android.os.Environment;
 import android.util.Log;
 
-import com.maple.recorder.player.PlayUtils;
 import com.maple.recorder.recording.AudioChunk;
 import com.maple.recorder.recording.AudioRecordConfig;
 import com.maple.recorder.recording.MsRecorder;
@@ -19,9 +18,10 @@ public class RecorderUtil {
     Recorder recorder;
     public static String rootPath = "/yun_ke_fu/flutter/wav_file/";
     String voicePath;
-    PlayUtils playUtils;
+    PlayUtilsPlus playUtils;
 
     RecordListener recordListener;
+    PlayStateListener playStateListener;
 
     public RecorderUtil() {
         initVoice();
@@ -34,8 +34,14 @@ public class RecorderUtil {
     }
 
 
+
+
+
     public void addPlayAmplitudeListener(RecordListener recordListener) {
         this.recordListener = recordListener;
+    }
+    public void addPlayStateListener(PlayStateListener playStateListener) {
+        this.playStateListener = playStateListener;
     }
 
     private void initVoice() {
@@ -106,10 +112,12 @@ public class RecorderUtil {
 
     public void playVoice() {
         if (playUtils == null) {
-            playUtils = new PlayUtils();
-            playUtils.setPlayStateChangeListener(new PlayUtils.PlayStateChangeListener() {
+            playUtils = new PlayUtilsPlus();
+            playUtils.setPlayStateChangeListener(new PlayUtilsPlus.PlayStateChangeListener() {
                 @Override
-                public void onPlayStateChange(boolean isPlay) {
+                public void onPlayStateChange(PlayState playState) {
+                    LogUtils.LOGD("wilson",playState.toString());
+                    playStateListener.playState(playState);
                 }
             });
         }
@@ -122,26 +130,18 @@ public class RecorderUtil {
 
 
 
-    public void playVoice(String path) {
-        if (playUtils == null) {
-            playUtils = new PlayUtils();
-            playUtils.setPlayStateChangeListener(new PlayUtils.PlayStateChangeListener() {
-                @Override
-                public void onPlayStateChange(boolean isPlay) {
-                }
-            });
-        }
-        if (playUtils.isPlaying()) {
-            playUtils.stopPlaying();
-        } else {
-            playUtils.startPlaying(path);
-        }
-    }
+
 
     public interface RecordListener {
         void onPlayAmplitude(Double amplitude);
 
         void onVoicePathSuccess(String voicePath);
+
+    }
+
+    public interface PlayStateListener {
+
+        void playState(PlayState playState);
 
     }
 }

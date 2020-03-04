@@ -44,6 +44,12 @@ class _SecondScreenState extends State<SecondScreen> {
       var voiceData = double.parse(data.msg);
       print("振幅大小   " + voiceData.toString() );
     });
+
+
+    recordPlugin.responsePlayStateController.listen((data){
+      print("播放路径   " + data.playPath );
+      print("播放状态   " + data.playState );
+    });
   }
 
 

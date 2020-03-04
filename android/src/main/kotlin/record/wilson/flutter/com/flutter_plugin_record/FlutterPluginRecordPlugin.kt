@@ -13,12 +13,10 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry
 import io.flutter.plugin.common.PluginRegistry.Registrar
-import record.wilson.flutter.com.flutter_plugin_record.utils.AudioHandler
-import record.wilson.flutter.com.flutter_plugin_record.utils.FileTool
-import record.wilson.flutter.com.flutter_plugin_record.utils.LogUtils
-import record.wilson.flutter.com.flutter_plugin_record.utils.RecorderUtil
+import record.wilson.flutter.com.flutter_plugin_record.utils.*
 import java.io.File
 import java.util.*
+
 
 class FlutterPluginRecordPlugin: MethodCallHandler ,PluginRegistry.RequestPermissionsResultListener{
 
@@ -29,12 +27,12 @@ class FlutterPluginRecordPlugin: MethodCallHandler ,PluginRegistry.RequestPermis
   internal lateinit var _call: MethodCall
   internal lateinit var voicePlayPath: String
   private var audioHandler: AudioHandler? = null
-
-
+  
   companion object {
     @JvmStatic
     fun registerWith(registrar: Registrar) {
       var channel = MethodChannel(registrar.messenger(), "flutter_plugin_record")
+      registrar.activeContext().applicationContext
       channel.setMethodCallHandler(FlutterPluginRecordPlugin(registrar,channel))
     }
   }
@@ -76,6 +74,15 @@ class FlutterPluginRecordPlugin: MethodCallHandler ,PluginRegistry.RequestPermis
   }
   private fun play() {
     val recorderUtil = RecorderUtil(voicePlayPath)
+    recorderUtil.addPlayStateListener {playState ->
+      print(playState)
+      val _id = _call.argument<String>("id")
+      val m1 = HashMap<String, String>()
+      m1["id"] = _id!!
+      m1["playPath"] = voicePlayPath
+      m1["playState"] = playState.toString()
+      channel.invokeMethod("onPlayState", m1)
+    }
     recorderUtil.playVoice()
     Log.d("android voice  ", "play")
     val _id = _call.argument<String>("id")
@@ -87,6 +94,15 @@ class FlutterPluginRecordPlugin: MethodCallHandler ,PluginRegistry.RequestPermis
   private fun playByPath() {
     val path = _call.argument<String>("path")
     val recorderUtil = RecorderUtil(path)
+    recorderUtil.addPlayStateListener {playState ->
+      print(playState)
+      val _id = _call.argument<String>("id")
+      val m1 = HashMap<String, String>()
+      m1["id"] = _id!!
+      m1["playPath"] = voicePlayPath
+      m1["playState"] = playState.toString()
+      channel.invokeMethod("onPlayState", m1)
+    }
     recorderUtil.playVoice()
 
     Log.d("android voice  ", "play")
@@ -122,12 +138,15 @@ class FlutterPluginRecordPlugin: MethodCallHandler ,PluginRegistry.RequestPermis
     channel.invokeMethod("onStart", m1)
   }
 
+
   private fun init() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
       initPermission()
     }else{
       initRecord()
     }
+
+  
   }
 
   private fun initPermission() {
