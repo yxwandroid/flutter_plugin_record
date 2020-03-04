@@ -17,6 +17,7 @@
     FlutterResult  _result;
     FlutterMethodCall  *_call;
     NSData  *wavData;
+    NSString *audioPath;
 }
 
 + (void)registerWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar {
@@ -58,7 +59,7 @@
 
 - (void) initRecord{
     DPAudioRecorder.sharedInstance.audioRecorderFinishRecording = ^void (NSData *data, NSTimeInterval audioTimeLength,NSString *path){
-        
+        self->audioPath =path;
         self->wavData = data;        
         NSLog(@"ios  voice   onStop");
         NSDictionary *args =   [self->_call arguments];
@@ -115,11 +116,20 @@
 - (void) stop{
     [DPAudioRecorder.sharedInstance stopRecording];
 }
+
+//public enum PlayState {
+//    prepare, start, pause, complete
+//}
+
 - (void) play{
     
     [DPAudioPlayer.sharedInstance startPlayWithData:self->wavData];
     DPAudioPlayer.sharedInstance.playComplete = ^void(){
         NSLog(@"播放完成");
+        NSDictionary *args =   [self->_call arguments];
+        NSString *mId = [args valueForKey:@"id"];
+        NSDictionary *dict3 = [NSDictionary dictionaryWithObjectsAndKeys:audioPath,@"playPath",@"complete",@"playState",mId,@"id", nil];
+        [self->_channel invokeMethod:@"onPlayState" arguments:dict3];
     };
     
     NSLog(@"ios  voice   play");
@@ -137,8 +147,12 @@
     NSData* data= [NSData dataWithContentsOfFile:filePath];
     
     [DPAudioPlayer.sharedInstance startPlayWithData:data];
-    DPAudioPlayer.sharedInstance.playComplete = ^void(){
+     DPAudioPlayer.sharedInstance.playComplete = ^void(){
         NSLog(@"播放完成");
+        NSDictionary *args =   [self->_call arguments];
+        NSString *mId = [args valueForKey:@"id"];
+        NSDictionary *dict3 = [NSDictionary dictionaryWithObjectsAndKeys:filePath,@"playPath",@"complete",@"playState",mId,@"id", nil];
+        [self->_channel invokeMethod:@"onPlayState" arguments:dict3];
     };
     
     NSString *mId = [args valueForKey:@"id"];

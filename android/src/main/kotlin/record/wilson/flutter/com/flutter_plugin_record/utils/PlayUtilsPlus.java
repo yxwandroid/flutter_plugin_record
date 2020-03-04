@@ -12,7 +12,7 @@ public class PlayUtilsPlus {
 
     public void setPlayStateChangeListener(PlayStateChangeListener listener) {
         this.playStateChangeListener = listener;
-        this.playStateChangeListener.onPlayStateChange(PlayState.prepare);
+      //  this.playStateChangeListener.onPlayStateChange(PlayState.prepare);
     }
 
     public void startPlaying(String filePath) {
@@ -26,7 +26,7 @@ public class PlayUtilsPlus {
                 }
             });
             if (this.playStateChangeListener != null) {
-                this.playStateChangeListener.onPlayStateChange(PlayState.start);
+               // this.playStateChangeListener.onPlayStateChange(PlayState.start);
             }
 
             this.player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -45,7 +45,7 @@ public class PlayUtilsPlus {
             if (this.player != null) {
                 this.player.pause();
                 if (this.playStateChangeListener != null) {
-                    this.playStateChangeListener.onPlayStateChange(PlayState.pause);
+                  //  this.playStateChangeListener.onPlayStateChange(PlayState.pause);
                 }
             }
         } catch (Exception var2) {
