@@ -13,6 +13,7 @@
 3. 录制声音大小的监听
 4. 提供录制时长的监听
 5. 提供类似微信的录制组件
+6. 提供播放音频结束的监听
 
 
 
@@ -123,7 +124,24 @@
           print("振幅大小   " + voiceData.toString() + "  " + voiceIco);
         });
     
+    
+    
+    
+    
+    
+    
+       
+   
+4,播放声音完成的监听监听
      
+   
+      recordPlugin.responsePlayStateController.listen((data){
+      print("播放路径   " + data.playPath );
+      print("播放状态   " + data.playState );
+    });
+    
+    
+    
 ## 2,录制组件的使用
 
 组件使用效果
