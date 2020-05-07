@@ -201,31 +201,25 @@ class _VoiceWidgetState extends State<VoiceWidget> {
   Widget build(BuildContext context) {
     return Container(
       child: GestureDetector(
-        // onVerticalDragStart: (details) {
-        //   starty = details.globalPosition.dy;
-        //   showVoiceView();
-        // },
-        // onVerticalDragEnd: (details) {
-        //   hideVoiceView();
-        // },
-        // onVerticalDragUpdate: (details) {
-        //   offset = details.globalPosition.dy;
-        //   moveVoiceView();
-        // },
-        onVerticalDragStart: (details) {
-        starty = details.globalPosition.dy;
-        showVoiceView();
-      },
-      onVerticalDragDown: (details) {
-        starty = details.globalPosition.dy;
-        showVoiceView();
-      },
-      onVerticalDragCancel: () => hideVoiceView(),
-      onVerticalDragEnd: (details) => hideVoiceView(),
-      onVerticalDragUpdate: (details) {
-        offset = details.globalPosition.dy;
-        moveVoiceView();
-      },
+
+//        onLongPress: (){
+//          print("onLongPress------onLongPress");
+//        },
+         onLongPressStart: (details) {
+           starty = details.globalPosition.dy;
+           print("start------onLongPressStart");
+             showVoiceView();
+
+         },
+         onLongPressEnd: (details) {
+           hideVoiceView();
+           print("end------onLongPressEnd");
+         },
+         onLongPressMoveUpdate: (details) {
+           offset = details.globalPosition.dy;
+           moveVoiceView();
+           print("update------onLongPressMoveUpdate");
+         },
         child: Container(
           height: 60,
           color: Colors.blue,

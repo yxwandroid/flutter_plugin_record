@@ -27,7 +27,8 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
     private lateinit var _result: Result
     private lateinit var call: MethodCall
     private lateinit var voicePlayPath: String
-    private var audioHandler: AudioHandler? = null
+    @Volatile
+    private var  audioHandler: AudioHandler? = null
 
     companion object {
         @JvmStatic
@@ -116,6 +117,7 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
         channel.invokeMethod("onPlay", m1)
     }
 
+    @Synchronized
     private fun stop() {
         if (audioHandler != null) {
             if (audioHandler?.isRecording == true) {
@@ -124,12 +126,13 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
         }
         Log.d("android voice  ", "stop")
     }
-
+    
+    @Synchronized
     private fun start() {
         Log.d("android voice  ", "start")
         //        recorderUtil.startRecord();
         if (audioHandler?.isRecording == true) {
-            audioHandler?.startRecord(null);
+//            audioHandler?.startRecord(null);
             audioHandler?.stopRecord()
         }
         audioHandler?.startRecord(MessageRecordListener())
