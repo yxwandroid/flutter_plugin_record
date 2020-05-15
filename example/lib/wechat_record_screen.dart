@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_plugin_record/index.dart';
 
-class OverLayScreen extends StatefulWidget {
+class WeChatRecordScreen extends StatefulWidget {
   @override
-  _OverLayScreenState createState() => _OverLayScreenState();
+  _WeChatRecordScreenState createState() => _WeChatRecordScreenState();
 }
 
-class _OverLayScreenState extends State<OverLayScreen> {
+class _WeChatRecordScreenState extends State<WeChatRecordScreen> {
   String toastShow = "悬浮框";
   OverlayEntry overlayEntry;
 

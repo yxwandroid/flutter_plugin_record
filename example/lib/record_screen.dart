@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_plugin_record/flutter_plugin_record.dart';
 import 'package:path_provider/path_provider.dart';
 
-class SecondScreen extends StatefulWidget {
+class RecordScreen extends StatefulWidget {
   @override
-  _SecondScreenState createState() => _SecondScreenState();
+  _RecordScreenState createState() => _RecordScreenState();
 }
 
-class _SecondScreenState extends State<SecondScreen> {
+class _RecordScreenState extends State<RecordScreen> {
   FlutterPluginRecord recordPlugin = new FlutterPluginRecord();
 
   String filePath = "";
