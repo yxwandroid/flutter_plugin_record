@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_plugin_record_example/overlay_screen.dart';
+import 'package:flutter_plugin_record_example/path_provider_screen.dart';
 import 'package:flutter_plugin_record_example/second_screen.dart';
 
 void main() => runApp(MyApp());
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "SecondScreen": (BuildContext context) => new SecondScreen(),
         "OverLayScreen": (BuildContext context) => new OverLayScreen(),
+        "PathProviderScreen": (BuildContext context) => new PathProviderScreen(),
       },
     );
   }
@@ -57,6 +59,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   Navigator.pushNamed<dynamic>(context, "OverLayScreen");
                 },
                 child: new Text("进入仿微信录制界面")),
+            new FlatButton(
+                onPressed: () {
+                  Navigator.pushNamed<dynamic>(context, "PathProviderScreen");
+                },
+                child: new Text("进入文件路径获取界面")),
 
           ],
         ),

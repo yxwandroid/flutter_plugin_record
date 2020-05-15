@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_plugin_record/flutter_plugin_record.dart';
@@ -105,13 +107,28 @@ class _SecondScreenState extends State<SecondScreen> {
   }
 
   void _requestAppDocumentsDirectory() {
+//    if(Platform.isIOS){
+//      //ios相关代码
+//      setState(() {
+//        getApplicationDocumentsDirectory().then((value) {
+//          String nowDataTimeStr = DateUtil.getNowDateMs().toString();
+//          String wavPath = value.path + "/" + nowDataTimeStr + ".wav";
+//          startByWavPath(wavPath);
+//        });
+//      });
+//    }else if(Platform.isAndroid){
+//      //android相关代码
+//    }
+
     setState(() {
       getApplicationDocumentsDirectory().then((value) {
         String nowDataTimeStr = DateUtil.getNowDateMs().toString();
         String wavPath = value.path + "/" + nowDataTimeStr + ".wav";
+        print(wavPath);
         startByWavPath(wavPath);
       });
     });
+
   }
 
   ///初始化语音录制的方法

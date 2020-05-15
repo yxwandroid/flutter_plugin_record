@@ -1,13 +1,11 @@
 package record.wilson.flutter.com.flutter_plugin_record
 
 import android.Manifest
-import android.annotation.TargetApi
 import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -54,6 +52,7 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
         when (call.method) {
             "init" -> init()
             "start" -> start()
+            "startByWavPath" -> startByWavPath()
             "stop" -> stop()
             "play" -> play()
             "playByPath" -> playByPath()
@@ -145,6 +144,24 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
         channel.invokeMethod("onStart", m1)
     }
 
+    @Synchronized
+    private fun startByWavPath() {
+        Log.d("android voice  ", "start")
+        val _id = call.argument<String>("id")
+        val wavPath = call.argument<String>("wavPath")
+
+        if (audioHandler?.isRecording == true) {
+            audioHandler?.stopRecord()
+        }
+        audioHandler?.startRecord(wavPath?.let { MessageRecordListenerByPath(it) })
+
+
+        val m1 = HashMap<String, String>()
+        m1["id"] = _id!!
+        m1["result"] = "success"
+        channel.invokeMethod("onStart", m1)
+    }
+
 
     private fun init() {
 
@@ -167,6 +184,66 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
     private fun initPermission() {
         if (ContextCompat.checkSelfPermission(registrar.activity(), Manifest.permission.RECORD_AUDIO) !== PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(registrar.activity(), arrayOf(Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
+        }
+    }
+
+
+
+    //自定义路径
+    private inner class MessageRecordListenerByPath : AudioHandler.RecordListener {
+        var wavPath=""
+
+        constructor(wavPath: String) {
+            this.wavPath = wavPath
+        }
+
+
+        override fun onStop(recordFile: File?, audioTime: Long?) {
+            LogUtils.LOGE("MessageRecordListener onStop $recordFile")
+            voicePlayPath = recordFile!!.path
+            val _id = call.argument<String>("id")
+            val m1 = HashMap<String, String>()
+            m1["id"] = _id!!
+            m1["voicePath"] = voicePlayPath
+            m1["audioTimeLength"] = audioTime.toString()
+            m1["result"] = "success"
+
+            registrar.activity().runOnUiThread { channel.invokeMethod("onStop", m1) }
+        }
+
+
+        override fun getFilePath(): String {
+            return  wavPath;
+        }
+
+        private val fileName: String
+        private val cacheDirectory: File
+
+
+        init {
+            cacheDirectory = FileTool.getIndividualAudioCacheDirectory(registrar.activity())
+            fileName = UUID.randomUUID().toString()
+        }
+
+        override fun onStart() {
+            LogUtils.LOGE("MessageRecordListener onStart on start record")
+        }
+
+        override fun onVolume(db: Double) {
+            LogUtils.LOGE("MessageRecordListener onVolume " + db / 100)
+            val _id = call.argument<String>("id")
+            val m1 = HashMap<String, Any>()
+            m1["id"] = _id!!
+            m1["amplitude"] = db / 100
+            m1["result"] = "success"
+
+            registrar.activity().runOnUiThread { channel.invokeMethod("onAmplitude", m1) }
+
+
+        }
+
+        override fun onError(error: Int) {
+            LogUtils.LOGE("MessageRecordListener onError $error")
         }
     }
 
