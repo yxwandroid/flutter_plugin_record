@@ -7,7 +7,6 @@
 //
 
 #import "DPAudioPlayer.h"
-#import "amr_wav_converter.h"
 #import <AVFoundation/AVFoundation.h>
 #import <UIKit/UIKit.h>
 

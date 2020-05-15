@@ -11,18 +11,23 @@
 #import <AVFoundation/AVFoundation.h>
 #import <UIKit/UIKit.h>
 #import "JX_GCDTimerManager.h"
-#import "amr_wav_converter.h" 
 
-#define MAX_RECORDER_TIME 210
-#define MIN_RECORDER_TIME 1
+
+
+#define MAX_RECORDER_TIME 2100  //最大录制时间
+#define MIN_RECORDER_TIME 1    // 最小录制时间
 
 #define TimerName @"audioTimer_999"
+
+//定义音频枚举类型
 typedef NS_ENUM(NSUInteger, CSVoiceType) {
     CSVoiceTypeWav,
     CSVoiceTypeAmr
 };
 
 static const CSVoiceType preferredVoiceType = CSVoiceTypeWav;
+
+
 @interface DPAudioRecorder () <AVAudioRecorderDelegate>
 {
     BOOL isRecording;
@@ -30,29 +35,21 @@ static const CSVoiceType preferredVoiceType = CSVoiceTypeWav;
     NSTimeInterval __block audioTimeLength; //录音时长
 }
 
+
 @property (nonatomic, strong) AVAudioRecorder *audioRecorder;
-@property (nonatomic, strong, readonly) NSString *originWaveFilePath;
-@property (nonatomic, strong, readonly) NSString *amrFilePath;
-@property (nonatomic, strong, readonly) NSString *convertedWaveFilePath;
+@property (nonatomic, strong) NSString *originWaveFilePath;
+
 
 
 @end
 
 @implementation DPAudioRecorder
 
-- (NSString *)originWaveFilePath {
-    return [NSTemporaryDirectory() stringByAppendingPathComponent:@"WAVtemporaryRadio.wav"];
-}
 
-- (NSString *)amrFilePath {
-    return [NSTemporaryDirectory() stringByAppendingPathComponent:@"AMRtemporaryRadio.amr"];
-}
-
-- (NSString *)convertedWaveFilePath {
-    return [NSTemporaryDirectory() stringByAppendingPathComponent:@"WAVtemporaryRadio2.wav"];
-}
 
 static DPAudioRecorder *recorderManager = nil;
+
+
 + (DPAudioRecorder *)sharedInstance
 {
     static dispatch_once_t onceToken;
@@ -64,30 +61,42 @@ static DPAudioRecorder *recorderManager = nil;
     return recorderManager;
 }
 
+
+/// 默认构造方法
 - (instancetype)init
 {
     if (self = [super init]) {
         //创建缓存录音文件到Tmp
-        NSString *wavRecordFilePath = self.originWaveFilePath;
+        NSString *wavRecordFilePath = [self createWaveFilePath];
         if (![[NSFileManager defaultManager] fileExistsAtPath:wavRecordFilePath]) {
             [[NSData data] writeToFile:wavRecordFilePath atomically:YES];
         }
+        self.originWaveFilePath = wavRecordFilePath;
         
-        NSString *amrRecordFilePath = self.amrFilePath;
-        if (![[NSFileManager defaultManager] fileExistsAtPath:amrRecordFilePath]) {
-            [[NSData data] writeToFile:amrRecordFilePath atomically:YES];
-        }
-        
-        NSString *convertedWaveFilePath = self.convertedWaveFilePath;
-        if (![[NSFileManager defaultManager] fileExistsAtPath:convertedWaveFilePath]) {
-            [[NSData data] writeToFile:convertedWaveFilePath atomically:YES];
-        }
-        NSLog(@"录制文件路径 %@",wavRecordFilePath);
+        NSLog(@"ios------初始化默认录制文件路径---%@",wavRecordFilePath);
     
     }
     return self;
 }
+ 
+- (NSString *) createWaveFilePath {
+    return [NSTemporaryDirectory() stringByAppendingPathComponent:@"WAVtemporaryRadio.wav"];
+}
 
+/// 根据传递过来的文件路径创建wav录制文件路径
+/// @param wavPath 传递的文件路径
+- (void)initByWavPath:(NSString *) wavPath{
+        
+           NSString *wavRecordFilePath = wavPath;
+           if (![[NSFileManager defaultManager] fileExistsAtPath:wavRecordFilePath]) {
+               [[NSData data] writeToFile:wavRecordFilePath atomically:YES];
+           }
+           
+         self.originWaveFilePath = wavPath;
+        NSLog(@"ios-----传递的录制文件路径-------- %@",wavPath);
+}
+
+/// 开始录制方法
 - (void)startRecording
 {
     if (isRecording) return;
@@ -196,13 +205,6 @@ static DPAudioRecorder *recorderManager = nil;
         case CSVoiceTypeWav:
             cacheAudioData = [NSData dataWithContentsOfFile:wavRecordFilePath];
             break;
-        case CSVoiceTypeAmr: {
-            NSString *amrRecordFilePath = self.amrFilePath;
-            //重点:把wav录音文件转换成amr文件,用于网络传输.amr文件大小是wav文件的十分之一左右
-            wave_file_to_amr_file([wavRecordFilePath cStringUsingEncoding:NSUTF8StringEncoding],[amrRecordFilePath cStringUsingEncoding:NSUTF8StringEncoding], 1, 16);
-            //返回amr音频文件Data,用于传输或存储
-            cacheAudioData = [NSData dataWithContentsOfFile:amrRecordFilePath];
-        } break;
     }
     
     //大于最小录音时长时,发送数据
@@ -294,7 +296,7 @@ NSData* WriteWavFileHeader(long lengthWithHeader, int sampleRate, int channels, 
     dispatch_source_set_timer(timer, DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC, 1ull * NSEC_PER_SEC);
     
     __weak __typeof(self) weakSelf = self;
-    
+
     dispatch_source_set_event_handler(timer, ^{
         __strong __typeof(weakSelf) _self = weakSelf;
         

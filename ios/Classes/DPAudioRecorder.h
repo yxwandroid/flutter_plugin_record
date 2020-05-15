@@ -16,26 +16,28 @@ typedef void(^AudioRecordingFailBlock)(NSString *reason);
 
 typedef void(^AudioSpeakPowerBlock)(float power);
 
+/// 录制语音
 @interface DPAudioRecorder : NSObject
 
-@property (nonatomic, copy) AudioRecorderFinishRecordingBlock audioRecorderFinishRecording;  //播放完成回调
+/// 录制完成的回调
+@property (nonatomic, copy) AudioRecorderFinishRecordingBlock audioRecorderFinishRecording;
+/// 开始录制回调
+@property (nonatomic, copy) AudioStartRecordingBlock audioStartRecording;
+/// 录制失败回调
+@property (nonatomic, copy) AudioRecordingFailBlock audioRecordingFail;
+/// 音频值测量回调
+@property (nonatomic, copy) AudioSpeakPowerBlock audioSpeakPower;
 
-@property (nonatomic, copy) AudioStartRecordingBlock audioStartRecording;                    //开始播放回调
-
-@property (nonatomic, copy) AudioRecordingFailBlock audioRecordingFail;                      //播放失败回调
-
-@property (nonatomic, copy) AudioSpeakPowerBlock audioSpeakPower;                            //音频值测量回调
 
 + (DPAudioRecorder *)sharedInstance;
 
-/**
- 开始录音
- */
+/// 传递录制文件路径
+- (void)initByWavPath:(NSString*) wavPath;
+
+/// 开始录音方法
 - (void)startRecording;
 
-/**
- 停止录音
- */
+/// 停止录音方法
 - (void)stopRecording;
 
 @end

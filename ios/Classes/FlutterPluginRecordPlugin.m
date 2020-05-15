@@ -18,6 +18,7 @@
     FlutterMethodCall  *_call;
     NSData  *wavData;
     NSString *audioPath;
+    BOOL _isInit;//是否执行初始化的标识
 }
 
 + (void)registerWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar {
@@ -33,6 +34,7 @@
     self = [super init];
     if (self) {
         _channel = channel;
+        _isInit = NO;
     }
     return self;
 }
@@ -43,6 +45,8 @@
     NSString *method = call.method;
     if ([@"init" isEqualToString:method]) {
         [self initRecord ];
+    }else if([@"startByWavPath" isEqualToString:method]){
+        [self startByWavPath];
     }else if([@"start" isEqualToString:method]){
         [self start ];
     }else if([@"stop" isEqualToString:method]){
@@ -57,7 +61,13 @@
 
 }
 
+
+
+///初始化语音录制的方法 初始化录制完成的回调,开始录制的回调,录制失败的回调,录制音量大小的回调
+/// 注意未初始化的话 Flutter 不能监听到上述回调事件
 - (void) initRecord{
+    _isInit = YES;
+    
     DPAudioRecorder.sharedInstance.audioRecorderFinishRecording = ^void (NSData *data, NSTimeInterval audioTimeLength,NSString *path){
         self->audioPath =path;
         self->wavData = data;        
@@ -103,52 +113,87 @@
     [_channel invokeMethod:@"onInit" arguments:dict3];
 }
 
+
+
+/// 开始录制的方法
 - (void) start{
     
+    if (!_isInit) {
+         NSLog(@"ios-------未初始化录制方法- initRecord--");
+        return;
+    }
+    NSLog(@"ios--------start record -----function--- start----");
     [DPAudioRecorder.sharedInstance startRecording];
     
-    NSLog(@"ios  voice   start");
     NSDictionary *args =   [_call arguments];
     NSString *mId = [args valueForKey:@"id"];
     NSDictionary *dict3 = [NSDictionary dictionaryWithObjectsAndKeys:@"success",@"result",mId,@"id", nil];
     [_channel invokeMethod:@"onStart" arguments:dict3];
 }
+
+/// 根据文件路径进行录制
+- (void) startByWavPath{
+    if (!_isInit) {
+            NSLog(@"ios-------未初始化录制方法- initRecord--");
+           return;
+       }
+    NSDictionary *args =   [_call arguments];
+    NSString *mId = [args valueForKey:@"id"];
+    NSString *wavPath = [args valueForKey:@"wavPath"];
+    
+    NSLog(@"ios--------start record -----function--- startByWavPath----%@", wavPath);
+    
+    [DPAudioRecorder.sharedInstance initByWavPath:wavPath];
+    [DPAudioRecorder.sharedInstance startRecording];
+    
+    NSDictionary *dict3 = [NSDictionary dictionaryWithObjectsAndKeys:@"success",@"result",mId,@"id", nil];
+    [_channel invokeMethod:@"onStart" arguments:dict3];
+}
+
+
+
+/// 停止录制的方法
 - (void) stop{
+    if (!_isInit) {
+            NSLog(@"ios-------未初始化录制方法- initRecord--");
+           return;
+       }
+    NSLog(@"ios--------stop record -----function--- stop----");
     [DPAudioRecorder.sharedInstance stopRecording];
 }
 
-//public enum PlayState {
-//    prepare, start, pause, complete
-//}
 
+
+///  播放录制完成的音频
 - (void) play{
     
+    NSLog(@"ios------play voice by warData----function---play--");
     [DPAudioPlayer.sharedInstance startPlayWithData:self->wavData];
     DPAudioPlayer.sharedInstance.playComplete = ^void(){
-        NSLog(@"播放完成");
+        NSLog(@"ios-----播放完成----by play");
         NSDictionary *args =   [self->_call arguments];
         NSString *mId = [args valueForKey:@"id"];
-        NSDictionary *dict3 = [NSDictionary dictionaryWithObjectsAndKeys:audioPath,@"playPath",@"complete",@"playState",mId,@"id", nil];
+        NSDictionary *dict3 = [NSDictionary dictionaryWithObjectsAndKeys:self->audioPath,@"playPath",@"complete",@"playState",mId,@"id", nil];
         [self->_channel invokeMethod:@"onPlayState" arguments:dict3];
     };
     
-    NSLog(@"ios  voice   play");
+   
     NSDictionary *args =   [_call arguments];
     NSString *mId = [args valueForKey:@"id"];
     NSDictionary *dict3 = [NSDictionary dictionaryWithObjectsAndKeys:@"success",@"result",mId,@"id", nil];
     [_channel invokeMethod:@"onPlay" arguments:dict3];
 }
 
+/// 根据指定路径播放音频
 - (void) playByPath{
-    
-    NSLog(@"ios  voice   play");
+    NSLog(@"ios------play voice by path-----function---playByPath---");
     NSDictionary *args =   [_call arguments];
     NSString *filePath = [args valueForKey:@"path"];
     NSData* data= [NSData dataWithContentsOfFile:filePath];
     
     [DPAudioPlayer.sharedInstance startPlayWithData:data];
      DPAudioPlayer.sharedInstance.playComplete = ^void(){
-        NSLog(@"播放完成");
+        NSLog(@"ios-----播放完成----by playbyPath---");
         NSDictionary *args =   [self->_call arguments];
         NSString *mId = [args valueForKey:@"id"];
         NSDictionary *dict3 = [NSDictionary dictionaryWithObjectsAndKeys:filePath,@"playPath",@"complete",@"playState",mId,@"id", nil];

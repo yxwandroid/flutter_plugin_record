@@ -97,7 +97,7 @@ class FlutterPluginRecord {
         RecordResponse res = new RecordResponse(
           success: true,
           path: "",
-          msg: "播放成功",
+          msg: "开始播放",
           key: methodCall.arguments["key"].toString(),
         );
         recordPlugin._responseController.add(res);
@@ -137,6 +137,11 @@ class FlutterPluginRecord {
   Future start() async {
     return await _invokeMethod('start', <String, String>{
       "start": "start",
+    });
+  }
+  Future startByWavPath(String wavPath) async {
+    return await _invokeMethod('startByWavPath', <String, String>{
+      "wavPath": wavPath,
     });
   }
 
