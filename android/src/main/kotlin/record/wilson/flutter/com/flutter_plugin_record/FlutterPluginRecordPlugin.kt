@@ -128,38 +128,52 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
     
     @Synchronized
     private fun start() {
-        Log.d("android voice  ", "start")
-        //        recorderUtil.startRecord();
-        if (audioHandler?.isRecording == true) {
+        var packageManager = registrar.activity().packageManager
+        var permission = PackageManager.PERMISSION_GRANTED == packageManager.checkPermission(Manifest.permission.RECORD_AUDIO, registrar.activeContext().packageName)
+        if (permission){
+            Log.d("android voice  ", "start")
+            //        recorderUtil.startRecord();
+            if (audioHandler?.isRecording == true) {
 //            audioHandler?.startRecord(null);
-            audioHandler?.stopRecord()
+                audioHandler?.stopRecord()
+            }
+            audioHandler?.startRecord(MessageRecordListener())
+
+
+            val _id = call.argument<String>("id")
+            val m1 = HashMap<String, String>()
+            m1["id"] = _id!!
+            m1["result"] = "success"
+            channel.invokeMethod("onStart", m1)
+        }else{
+            checkPermission()
         }
-        audioHandler?.startRecord(MessageRecordListener())
 
-
-        val _id = call.argument<String>("id")
-        val m1 = HashMap<String, String>()
-        m1["id"] = _id!!
-        m1["result"] = "success"
-        channel.invokeMethod("onStart", m1)
     }
 
     @Synchronized
     private fun startByWavPath() {
-        Log.d("android voice  ", "start")
-        val _id = call.argument<String>("id")
-        val wavPath = call.argument<String>("wavPath")
+        var packageManager = registrar.activity().packageManager
+        var permission = PackageManager.PERMISSION_GRANTED == packageManager.checkPermission(Manifest.permission.RECORD_AUDIO, registrar.activeContext().packageName)
+        if (permission){
+            Log.d("android voice  ", "start")
+            val _id = call.argument<String>("id")
+            val wavPath = call.argument<String>("wavPath")
 
-        if (audioHandler?.isRecording == true) {
-            audioHandler?.stopRecord()
+            if (audioHandler?.isRecording == true) {
+                audioHandler?.stopRecord()
+            }
+            audioHandler?.startRecord(wavPath?.let { MessageRecordListenerByPath(it) })
+
+
+            val m1 = HashMap<String, String>()
+            m1["id"] = _id!!
+            m1["result"] = "success"
+            channel.invokeMethod("onStart", m1)
+        }else{
+            checkPermission()
         }
-        audioHandler?.startRecord(wavPath?.let { MessageRecordListenerByPath(it) })
 
-
-        val m1 = HashMap<String, String>()
-        m1["id"] = _id!!
-        m1["result"] = "success"
-        channel.invokeMethod("onStart", m1)
     }
 
 
