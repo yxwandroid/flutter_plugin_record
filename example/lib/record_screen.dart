@@ -141,6 +141,7 @@ class _RecordScreenState extends State<RecordScreen> {
     recordPlugin.start();
   }
 
+  ///根据传递的路径进行语音录制
   void startByWavPath(String wavPath) async {
     recordPlugin.startByWavPath(wavPath);
   }
