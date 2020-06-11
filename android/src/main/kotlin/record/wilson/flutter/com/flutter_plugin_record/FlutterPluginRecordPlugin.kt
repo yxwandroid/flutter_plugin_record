@@ -99,11 +99,11 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
         val path = call.argument<String>("path")
         val recorderUtil = RecorderUtil(path)
         recorderUtil.addPlayStateListener { playState ->
-            print(playState)
+           // print(playState)
             val _id = call.argument<String>("id")
             val m1 = HashMap<String, String>()
             m1["id"] = _id!!
-            m1["playPath"] = voicePlayPath
+            m1["playPath"] = path.toString();
             m1["playState"] = playState.toString()
             channel.invokeMethod("onPlayState", m1)
         }
