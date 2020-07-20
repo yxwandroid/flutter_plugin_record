@@ -157,10 +157,18 @@ class FlutterPluginRecord {
     });
   }
 
-  Future playByPath(String path) async {
+//  Future playByPath(String path) async {
+//    return await _invokeMethod('playByPath', <String, String>{
+//      "play": "play",
+//      "path": path,
+//    });
+//  }
+
+  Future playByPath(String path, String type) async {
     return await _invokeMethod('playByPath', <String, String>{
       "play": "play",
       "path": path,
+      "type": type,
     });
   }
 

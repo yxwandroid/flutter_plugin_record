@@ -189,7 +189,15 @@
     NSLog(@"ios------play voice by path-----function---playByPath---");
     NSDictionary *args =   [_call arguments];
     NSString *filePath = [args valueForKey:@"path"];
-    NSData* data= [NSData dataWithContentsOfFile:filePath];
+
+    NSString *typeStr = [args valueForKey:@"type"];
+    NSData *data;
+    if ([typeStr isEqualToString:@"url"]) {
+                data =[[NSData alloc]initWithContentsOfURL:[NSURL URLWithString:filePath]];
+            }else if([typeStr isEqualToString:@"file"]){
+                data= [NSData dataWithContentsOfFile:filePath];
+
+            }
     
     [DPAudioPlayer.sharedInstance startPlayWithData:data];
      DPAudioPlayer.sharedInstance.playComplete = ^void(){
