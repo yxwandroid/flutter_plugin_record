@@ -164,6 +164,16 @@ class FlutterPluginRecord {
 //    });
 //  }
 
+
+  ///
+  /// 参数 path  播放音频的地址
+  ///
+  ///path 为 url类型对应的在线播放地址   https://linjuli-app-audio.oss-cn-hangzhou.aliyuncs.com/audio/50c39c768b534ce1ba25d837ed153824.wav
+  ///path 对应本地文件路径对应的是本地文件播放肚子   /sdcard/flutterdemo/wiw.wav
+  /// 参数  type
+  /// 当path 为url   type为 url
+  /// 当path 为本地地址 type为 file
+  ///
   Future playByPath(String path, String type) async {
     return await _invokeMethod('playByPath', <String, String>{
       "play": "play",

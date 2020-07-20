@@ -159,9 +159,7 @@ class _RecordScreenState extends State<RecordScreen> {
   ///播放指定路径录音文件  url为iOS播放网络语音，file为播放本地语音文件
   void playByPath(String path) {
 //    recordPlugin.playByPath(path,"file");
-
     recordPlugin.playByPath("https://linjuli-app-audio.oss-cn-hangzhou.aliyuncs.com/audio/50c39c768b534ce1ba25d837ed153824.wav","url");
-
   }
 
   @override

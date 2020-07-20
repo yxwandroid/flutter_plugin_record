@@ -16,8 +16,9 @@
 6. 提供播放音频结束的监听
 7. 提供根据传递的路径进行语音录制
 7. 提供播放指定路径的音频文件
-8. 提供播放完成的回调监听
-9. 提供播放指定Url地址的wav格式文件
+8. 提供播放指定Url地址的wav格式文件
+9. 提供播放完成的回调监听
+
 
 
 
@@ -70,9 +71,25 @@
 ### 5, 根据传递的路径进行语音录制
 
      recordPlugin.startByWavPath(wavPath);
-#### 6, 根据传递的路径进行语音播放
+### 6, 根据传递的路径或则Url进行语音播放
 
-      recordPlugin.playByPath(path);   
+     
+      ///
+      /// 参数 path  播放音频的地址
+      ///
+      ///path 为 url类型对应的在线播放地址   https://linjuli-app-audio.oss-cn-hangzhou.aliyuncs.com/audio/50c39c768b534ce1ba25d837ed153824.wav
+      ///path 对应本地文件路径对应的是本地文件播放肚子   /sdcard/flutterdemo/wiw.wav
+      /// 参数  type
+      /// 当path 为url   type为 url
+      /// 当path 为本地地址 type为 file
+      ///
+      Future playByPath(String path, String type) async {
+        return await _invokeMethod('playByPath', <String, String>{
+          "play": "play",
+          "path": path,
+          "type": type,
+        });
+      }   
 
 ### 7, 释放资源
 可以在页面退出的时候进行资源释放 比如在  dispose方法中调用如下代码
@@ -218,7 +235,10 @@ stopRecord 停止录制的回调 返回的path是录制成功之后文件的保�
 
 * [ ] 双声道切换 单声道切换
 
+## 感谢
 
+
+[肖中旺](https://github.com/xzw421771880)对IOS 播放在线Wav的支持 
 
 
 ## 关注公众号获取更多内容
