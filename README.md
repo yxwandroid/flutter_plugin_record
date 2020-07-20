@@ -17,6 +17,7 @@
 7. 提供根据传递的路径进行语音录制
 7. 提供播放指定路径的音频文件
 8. 提供播放完成的回调监听
+9. 提供播放指定Url地址的wav格式文件
 
 
 
@@ -38,7 +39,7 @@
     引入方式3 (引入Flutter仓库的library)
           
     dependencies:
-      flutter_plugin_record: ^0.1.7
+      flutter_plugin_record: ^0.1.8
               
               
           
