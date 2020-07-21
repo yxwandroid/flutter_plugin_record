@@ -41,9 +41,9 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
         this.registrar = registrar
         this.registrar.addRequestPermissionsResultListener(this)
         this.channel = _channel
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            initPermission()
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            initPermission()
+//        }
     }
 
     override fun onMethodCall(call: MethodCall, result: Result) {
