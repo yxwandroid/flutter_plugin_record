@@ -19,7 +19,7 @@
      recordPlugin.start()
 ### 3, 停止录制
      recordPlugin.stop()
-### 4, 播放
+### 4, 播放 暂停,停止播放
 #### 1,播放
      
      recordPlugin.play()

@@ -7,7 +7,7 @@
 
 -------
 插件提供的功能
-
+录制
 1. 录制语音,
 2. 播放录音,
 3. 录制声音大小的监听
@@ -15,9 +15,13 @@
 5. 提供类似微信的录制组件
 6. 提供播放音频结束的监听
 7. 提供根据传递的路径进行语音录制
-7. 提供播放指定路径的音频文件
-8. 提供播放指定Url地址的wav格式文件
-9. 提供播放完成的回调监听
+
+播放
+1. 提供播放指定路径的音频文件
+2. 提供播放指定Url地址的wav格式文件
+3. 提供播放完成的回调监听
+4. 提供暂停和继续播放的功能
+5. 提供停止播放的功能
 
 
 
@@ -40,7 +44,7 @@
     引入方式3 (引入Flutter仓库的library)
           
     dependencies:
-      flutter_plugin_record: ^0.1.9
+      flutter_plugin_record: ^0.2.1
               
               
           
@@ -62,15 +66,29 @@
 ### 2, 开始录制
    
      recordPlugin.start()
+     
 ### 3, 停止录制
+
      recordPlugin.stop()
+     
 ### 4, 播放
+
+#### 1,播放
+     
      recordPlugin.play()
-          
+     
+#### 2, 暂停和继续播放
+       
+     recordPlugin.pausePlay();
+
+#### 3, 停止播放
+    
+     recordPlugin.stopPlay();
           
 ### 5, 根据传递的路径进行语音录制
 
      recordPlugin.startByWavPath(wavPath);
+     
 ### 6, 根据传递的路径或则Url进行语音播放
 
      
