@@ -81,7 +81,13 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
 
     //暂停播放
     private fun pause() {
-        recorderUtil?.pausePlay()
+        val isPlaying= recorderUtil?.pausePlay()
+        val _id = call.argument<String>("id")
+        val m1 = HashMap<String, String>()
+        m1["id"] = _id!!
+        m1["result"] = "success"
+        m1["isPlaying"] = isPlaying.toString()
+        channel.invokeMethod("pausePlay", m1)
     }
 
     private fun play() {

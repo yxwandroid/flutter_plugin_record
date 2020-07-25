@@ -42,7 +42,7 @@ public class PlayUtilsPlus {
     }
     Boolean isPause = false;
 
-    public void pausePlay() {
+    public boolean pausePlay() {
         try {
             if (this.player.isPlaying() && !isPause) {
                 this.player.pause();
@@ -51,9 +51,11 @@ public class PlayUtilsPlus {
                 this.player.start();
                 isPause = false;
             }
+
         } catch (Exception var2) {
             var2.printStackTrace();
         }
+        return isPause ;
     }
 
     public void stopPlaying() {

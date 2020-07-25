@@ -127,9 +127,10 @@ public class RecorderUtil {
         playUtils.startPlaying(voicePath);
     }
 
-    public  void pausePlay(){
+    public  boolean pausePlay(){
         LogUtils.LOGD("wilson","pausePlay");
-        playUtils.pausePlay();
+        boolean isPlaying = playUtils.pausePlay();
+        return isPlaying;
     }
 
     public interface RecordListener {
