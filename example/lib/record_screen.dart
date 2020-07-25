@@ -96,10 +96,21 @@ class _RecordScreenState extends State<RecordScreen> {
             FlatButton(
               child: Text("播放本地指定路径录音文件"),
               onPressed: () {
-                playByPath(filePath);
+                playByPath(filePath,"file");
               },
             ),
-
+            FlatButton(
+              child: Text("播放网络wav文件"),
+              onPressed: () {
+                playByPath("http://qdtd2yckr.bkt.clouddn.com/%E9%A3%9E%E4%BA%91%E4%B9%8B%E4%B8%8B.wav","url");
+              },
+            ),
+            FlatButton(
+              child: Text("暂停|继续播放"),
+              onPressed: () {
+                pause();
+              },
+            ),
           ],
         ),
       ),
@@ -128,7 +139,6 @@ class _RecordScreenState extends State<RecordScreen> {
         startByWavPath(wavPath);
       });
     });
-
   }
 
   ///初始化语音录制的方法
@@ -157,9 +167,13 @@ class _RecordScreenState extends State<RecordScreen> {
   }
 
   ///播放指定路径录音文件  url为iOS播放网络语音，file为播放本地语音文件
-  void playByPath(String path) {
-//    recordPlugin.playByPath(path,"file");
-    recordPlugin.playByPath("https://linjuli-app-audio.oss-cn-hangzhou.aliyuncs.com/audio/50c39c768b534ce1ba25d837ed153824.wav","url");
+  void playByPath(String path,String type) {
+    recordPlugin.playByPath(path,type);
+  }
+
+  ///暂停播放
+  void pause() {
+    recordPlugin.pausePlay();
   }
 
   @override

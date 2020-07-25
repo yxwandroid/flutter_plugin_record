@@ -119,6 +119,12 @@ class FlutterPluginRecord {
         PlayState res = new PlayState(playState, playPath);
         recordPlugin._responsePlayStateController.add(res);
         break;
+      case "pausePlay":
+        //暂停或继续播放
+        var isPlaying = methodCall.arguments["isPlaying"];
+        PlayState res = new PlayState(isPlaying, "");
+        recordPlugin._responsePlayStateController.add(res);
+        break;
       default:
         print("default");
         break;
@@ -179,6 +185,13 @@ class FlutterPluginRecord {
       "play": "play",
       "path": path,
       "type": type,
+    });
+  }
+
+  ///暂停播放
+  Future pausePlay() async {
+    return await _invokeMethod('pause', <String, String>{
+      "pause": "pause",
     });
   }
 

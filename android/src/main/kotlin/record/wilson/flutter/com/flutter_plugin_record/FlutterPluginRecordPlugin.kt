@@ -25,8 +25,10 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
     private lateinit var _result: Result
     private lateinit var call: MethodCall
     private lateinit var voicePlayPath: String
+    private var recorderUtil: RecorderUtil? = null
+
     @Volatile
-    private var  audioHandler: AudioHandler? = null
+    private var audioHandler: AudioHandler? = null
 
     companion object {
         @JvmStatic
@@ -55,6 +57,7 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
             "startByWavPath" -> startByWavPath()
             "stop" -> stop()
             "play" -> play()
+            "pause" -> pause()
             "playByPath" -> playByPath()
             else -> result.notImplemented()
         }
@@ -76,9 +79,15 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
 
     }
 
+    //暂停播放
+    private fun pause() {
+        recorderUtil?.pausePlay()
+    }
+
     private fun play() {
-        val recorderUtil = RecorderUtil(voicePlayPath)
-        recorderUtil.addPlayStateListener { playState ->
+
+        recorderUtil = RecorderUtil(voicePlayPath)
+        recorderUtil!!.addPlayStateListener { playState ->
             print(playState)
             val _id = call.argument<String>("id")
             val m1 = HashMap<String, String>()
@@ -87,7 +96,7 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
             m1["playState"] = playState.toString()
             channel.invokeMethod("onPlayState", m1)
         }
-        recorderUtil.playVoice()
+        recorderUtil!!.playVoice()
         Log.d("android voice  ", "play")
         val _id = call.argument<String>("id")
         val m1 = HashMap<String, String>()
@@ -97,9 +106,10 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
 
     private fun playByPath() {
         val path = call.argument<String>("path")
-        val recorderUtil = RecorderUtil(path)
-        recorderUtil.addPlayStateListener { playState ->
-           // print(playState)
+        if (recorderUtil == null) {
+            recorderUtil = RecorderUtil(path)
+        }
+        recorderUtil!!.addPlayStateListener { playState ->
             val _id = call.argument<String>("id")
             val m1 = HashMap<String, String>()
             m1["id"] = _id!!
@@ -107,7 +117,7 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
             m1["playState"] = playState.toString()
             channel.invokeMethod("onPlayState", m1)
         }
-        recorderUtil.playVoice()
+        recorderUtil!!.playVoice()
 
         Log.d("android voice  ", "play")
         val _id = call.argument<String>("id")
@@ -125,12 +135,12 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
         }
         Log.d("android voice  ", "stop")
     }
-    
+
     @Synchronized
     private fun start() {
         var packageManager = registrar.activity().packageManager
         var permission = PackageManager.PERMISSION_GRANTED == packageManager.checkPermission(Manifest.permission.RECORD_AUDIO, registrar.activeContext().packageName)
-        if (permission){
+        if (permission) {
             Log.d("android voice  ", "start")
             //        recorderUtil.startRecord();
             if (audioHandler?.isRecording == true) {
@@ -145,7 +155,7 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
             m1["id"] = _id!!
             m1["result"] = "success"
             channel.invokeMethod("onStart", m1)
-        }else{
+        } else {
             checkPermission()
         }
 
@@ -155,7 +165,7 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
     private fun startByWavPath() {
         var packageManager = registrar.activity().packageManager
         var permission = PackageManager.PERMISSION_GRANTED == packageManager.checkPermission(Manifest.permission.RECORD_AUDIO, registrar.activeContext().packageName)
-        if (permission){
+        if (permission) {
             Log.d("android voice  ", "start")
             val _id = call.argument<String>("id")
             val wavPath = call.argument<String>("wavPath")
@@ -170,7 +180,7 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
             m1["id"] = _id!!
             m1["result"] = "success"
             channel.invokeMethod("onStart", m1)
-        }else{
+        } else {
             checkPermission()
         }
 
@@ -179,17 +189,17 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
 
     private fun init() {
 
-      checkPermission()
+        checkPermission()
     }
 
 
     private fun checkPermission() {
         var packageManager = registrar.activity().packageManager
         var permission = PackageManager.PERMISSION_GRANTED == packageManager.checkPermission(Manifest.permission.RECORD_AUDIO, registrar.activeContext().packageName)
-        if (permission){
-          initRecord()
-        }else{
-          initPermission()
+        if (permission) {
+            initRecord()
+        } else {
+            initPermission()
         }
 
 
@@ -202,10 +212,9 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
     }
 
 
-
     //自定义路径
     private inner class MessageRecordListenerByPath : AudioHandler.RecordListener {
-        var wavPath=""
+        var wavPath = ""
 
         constructor(wavPath: String) {
             this.wavPath = wavPath
@@ -227,7 +236,7 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
 
 
         override fun getFilePath(): String {
-            return  wavPath;
+            return wavPath;
         }
 
         private val fileName: String
@@ -307,18 +316,6 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
 
 
         }
-
-//    override fun onStop(recordFile: File) {
-//      LogUtils.LOGE("MessageRecordListener onStop $recordFile")
-//      voicePlayPath = recordFile.path
-//      val _id = _call.argument<String>("id")
-//      val m1 = HashMap<String, String>()
-//      m1["id"] = _id!!
-//      m1["voicePath"] = voicePlayPath
-//      m1["result"] = "success"
-//
-//      registrar.activity().runOnUiThread { channel.invokeMethod("onStop", m1) }
-//    }
 
         override fun onError(error: Int) {
             LogUtils.LOGE("MessageRecordListener onError $error")

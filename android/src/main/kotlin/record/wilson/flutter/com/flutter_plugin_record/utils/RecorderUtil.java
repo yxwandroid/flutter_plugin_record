@@ -116,21 +116,21 @@ public class RecorderUtil {
             playUtils.setPlayStateChangeListener(new PlayUtilsPlus.PlayStateChangeListener() {
                 @Override
                 public void onPlayStateChange(PlayState playState) {
-                    LogUtils.LOGD("wilson",playState.toString());
+
                     playStateListener.playState(playState);
                 }
             });
         }
-        if (playUtils.isPlaying()) {
+        if(playUtils.isPlaying()) {
             playUtils.stopPlaying();
-        } else {
-            playUtils.startPlaying(voicePath);
         }
+        playUtils.startPlaying(voicePath);
     }
 
-
-
-
+    public  void pausePlay(){
+        LogUtils.LOGD("wilson","pausePlay");
+        playUtils.pausePlay();
+    }
 
     public interface RecordListener {
         void onPlayAmplitude(Double amplitude);

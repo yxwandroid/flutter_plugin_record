@@ -1,10 +1,3 @@
-//
-//  AmrRecorder.m
-//  aaaa
-//
-//  Created by Andrew on 2017/7/17.
-//  Copyright © 2017年 Andrew. All rights reserved.
-//
 
 #import "DPAudioRecorder.h"
 #import "DPAudioPlayer.h"

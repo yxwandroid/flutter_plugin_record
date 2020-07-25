@@ -1,10 +1,3 @@
-//
-//  JX_GCDTimerManager.h
-//  TimerComparison
-//
-//  Created by Joeyxu on 6/12/15.
-//  Copyright (c) 2015 com.tencent. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 

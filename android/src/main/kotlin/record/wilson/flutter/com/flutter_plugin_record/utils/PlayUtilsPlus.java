@@ -12,11 +12,12 @@ public class PlayUtilsPlus {
 
     public void setPlayStateChangeListener(PlayStateChangeListener listener) {
         this.playStateChangeListener = listener;
-      //  this.playStateChangeListener.onPlayStateChange(PlayState.prepare);
+        //  this.playStateChangeListener.onPlayStateChange(PlayState.prepare);
     }
 
     public void startPlaying(String filePath) {
         try {
+            isPause=false;
             this.player = new MediaPlayer();
             this.player.setDataSource(filePath);
             this.player.prepareAsync();
@@ -26,7 +27,7 @@ public class PlayUtilsPlus {
                 }
             });
             if (this.playStateChangeListener != null) {
-               // this.playStateChangeListener.onPlayStateChange(PlayState.start);
+                // this.playStateChangeListener.onPlayStateChange(PlayState.start);
             }
 
             this.player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -39,19 +40,20 @@ public class PlayUtilsPlus {
         }
 
     }
+    Boolean isPause = false;
 
     public void pausePlay() {
         try {
-            if (this.player != null) {
+            if (this.player.isPlaying() && !isPause) {
                 this.player.pause();
-                if (this.playStateChangeListener != null) {
-                  //  this.playStateChangeListener.onPlayStateChange(PlayState.pause);
-                }
+                isPause = true;
+            } else {
+                this.player.start();
+                isPause = false;
             }
         } catch (Exception var2) {
             var2.printStackTrace();
         }
-
     }
 
     public void stopPlaying() {
@@ -59,6 +61,7 @@ public class PlayUtilsPlus {
             if (this.player != null) {
                 this.player.stop();
                 this.player.reset();
+                this.player=null;
                 if (this.playStateChangeListener != null) {
                     this.playStateChangeListener.onPlayStateChange(PlayState.complete);
                 }

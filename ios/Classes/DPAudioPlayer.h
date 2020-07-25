@@ -1,10 +1,3 @@
-//
-//  DPAudioPlayer.h
-//  AMRMedia
-//
-//  Created by Andrew on 2017/7/17.
-//  Copyright © 2017年 prinsun. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 
@@ -27,13 +20,6 @@ typedef void(^StartPlayingBlock)(BOOL isPlaying);
 + (DPAudioPlayer *)sharedInstance;
 
 /**
- 播放网络amr文件
-
- @param urlStr amr录音文件url
- */
-- (void)startPlayWithURL:(NSString *)urlStr;
-
-/**
  播放data格式录音
 
  @param data 录音data
@@ -44,5 +30,10 @@ typedef void(^StartPlayingBlock)(BOOL isPlaying);
  停止播放
  */
 - (void)stopPlaying;
+
+/// 暂停播放
+- (bool)pausePlaying;
+
+
 
 @end

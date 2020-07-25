@@ -1,10 +1,3 @@
-//
-//  DPAudioPlayer.m
-//  AMRMedia
-//
-//  Created by Andrew on 2017/7/17.
-//  Copyright © 2017年 prinsun. All rights reserved.
-//
 
 #import "DPAudioPlayer.h"
 #import <AVFoundation/AVFoundation.h>
@@ -54,14 +47,9 @@ static DPAudioPlayer *playerManager = nil;
     return self;
 }
 
-- (void)startPlayWithURL:(NSString *)urlStr
-{
-   
-}
-
 - (void)startPlayWithData:(NSData *)data
 {
-    if (isPlaying) return;
+//    if (isPlaying) return;
     //打开红外传感器
     [[UIDevice currentDevice] setProximityMonitoringEnabled:YES];
     AVAudioSession *session = [AVAudioSession sharedInstance];
@@ -72,6 +60,12 @@ static DPAudioPlayer *playerManager = nil;
 //    [[AVAudioSession sharedInstance] overrideOutputAudioPort:portOverride error:nil];
     
     //self.audioPlayer = [[AVAudioPlayer alloc]initWithData:[self conversionAMRDataToWAVData:data] error:nil];
+    
+    if (isPlaying){
+        [self.audioPlayer stop];
+        self.audioPlayer = nil;
+        isPlaying = NO;
+    }
     self.audioPlayer = [[AVAudioPlayer alloc]initWithData:data error:nil];
     self.audioPlayer.meteringEnabled = YES;
     self.audioPlayer.delegate = self;
@@ -92,6 +86,24 @@ static DPAudioPlayer *playerManager = nil;
         }
     }
 }
+
+//暂停播放
+- (bool)pausePlaying
+{
+    if (isPlaying){
+        //关闭红外传感器
+        [[UIDevice currentDevice] setProximityMonitoringEnabled:NO];
+        [self.audioPlayer pause];
+        isPlaying = NO;
+    }else{
+        [self.audioPlayer play];
+        isPlaying = YES;
+    }
+   
+    return isPlaying;
+    
+}
+
 
 - (void)stopPlaying
 {
