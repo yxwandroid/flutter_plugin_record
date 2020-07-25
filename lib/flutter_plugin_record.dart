@@ -195,6 +195,7 @@ class FlutterPluginRecord {
     });
   }
 
+  /// 提供停止播放的功能
   Future stopPlay() async {
     return await _invokeMethod('stopPlay', <String, String>{
     });

@@ -111,6 +111,12 @@ class _RecordScreenState extends State<RecordScreen> {
                 pause();
               },
             ),
+            FlatButton(
+              child: Text("停止播放"),
+              onPressed: () {
+                stopPlay();
+              },
+            ),
           ],
         ),
       ),
@@ -181,5 +187,9 @@ class _RecordScreenState extends State<RecordScreen> {
     /// 当界面退出的时候是释放录音资源
     recordPlugin.dispose();
     super.dispose();
+  }
+
+  void stopPlay() {
+    recordPlugin.stopPlay();
   }
 }
