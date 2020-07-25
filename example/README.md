@@ -20,7 +20,18 @@
 ### 3, 停止录制
      recordPlugin.stop()
 ### 4, 播放
+#### 1,播放
+     
      recordPlugin.play()
+     
+#### 2, 暂停和继续播放
+       
+     recordPlugin.pausePlay();
+
+#### 3, 停止播放
+    
+     recordPlugin.stopPlay();
+      
 ### 3, 释放资源
 可以在页面退出的时候进行资源释放 比如在  dispose方法中调用如下代码
 

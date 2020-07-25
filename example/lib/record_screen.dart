@@ -177,7 +177,7 @@ class _RecordScreenState extends State<RecordScreen> {
     recordPlugin.playByPath(path,type);
   }
 
-  ///暂停播放
+  ///暂停|继续播放
   void pause() {
     recordPlugin.pausePlay();
   }
