@@ -48,6 +48,8 @@
         [self pausePlay ];
     }else if([@"playByPath" isEqualToString:method]){
         [self playByPath];
+    }else if([@"stopPlay" isEqualToString:method]){
+        [self stopPlay];
     }else{
         result(FlutterMethodNotImplemented);
     }
@@ -174,6 +176,10 @@
     NSString *mId = [args valueForKey:@"id"];
     NSDictionary *dict3 = [NSDictionary dictionaryWithObjectsAndKeys:@"success",@"result",mId,@"id", nil];
     [_channel invokeMethod:@"onPlay" arguments:dict3];
+}
+- (void)stopPlay{
+    [DPAudioPlayer.sharedInstance stopPlaying];
+    
 }
 - (void) pausePlay{
     

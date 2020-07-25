@@ -133,6 +133,11 @@ public class RecorderUtil {
         return isPlaying;
     }
 
+    public  void stopPlay(){
+        LogUtils.LOGD("wilson","stopPlay");
+        playUtils.stopPlaying();
+    }
+
     public interface RecordListener {
         void onPlayAmplitude(Double amplitude);
 

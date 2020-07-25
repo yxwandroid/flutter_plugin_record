@@ -195,7 +195,13 @@ class FlutterPluginRecord {
     });
   }
 
+  Future stopPlay() async {
+    return await _invokeMethod('stopPlay', <String, String>{
+    });
+  }
+
   dispose() {
+     stopPlay();
     _responseInitController.close();
     _responseController.close();
     _responseAmplitudeController.close();

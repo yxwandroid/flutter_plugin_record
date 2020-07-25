@@ -59,9 +59,12 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
             "play" -> play()
             "pause" -> pause()
             "playByPath" -> playByPath()
+            "stopPlay" -> stopPlay()
             else -> result.notImplemented()
         }
     }
+
+
 
     private fun initRecord() {
         if (audioHandler != null) {
@@ -79,6 +82,9 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
 
     }
 
+    private fun stopPlay() {
+        recorderUtil!!.stopPlay()
+    }
     //暂停播放
     private fun pause() {
         val isPlaying= recorderUtil?.pausePlay()
