@@ -83,7 +83,7 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
     }
 
     private fun stopPlay() {
-        recorderUtil!!.stopPlay()
+        recorderUtil?.stopPlay()
     }
     //暂停播放
     private fun pause() {

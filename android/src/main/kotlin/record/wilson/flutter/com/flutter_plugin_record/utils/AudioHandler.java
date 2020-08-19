@@ -22,12 +22,6 @@ import java.util.Locale;
 
 import record.wilson.flutter.com.flutter_plugin_record.timer.ITimerChangeCallback;
 import record.wilson.flutter.com.flutter_plugin_record.timer.TimerUtils;
-
-/**
- * Created by hong.lin on 2017/6/22.
- */
-
-
 public final class AudioHandler extends Handler {
 
     private static final String TAG = "AudioHandler";

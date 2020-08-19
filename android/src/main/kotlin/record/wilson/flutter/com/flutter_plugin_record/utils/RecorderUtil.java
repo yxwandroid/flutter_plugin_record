@@ -116,7 +116,6 @@ public class RecorderUtil {
             playUtils.setPlayStateChangeListener(new PlayUtilsPlus.PlayStateChangeListener() {
                 @Override
                 public void onPlayStateChange(PlayState playState) {
-
                     playStateListener.playState(playState);
                 }
             });
