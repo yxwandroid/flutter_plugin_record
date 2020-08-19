@@ -202,7 +202,7 @@ class FlutterPluginRecord {
   }
 
   dispose() {
-     stopPlay();
+//     stopPlay();
     _responseInitController.close();
     _responseController.close();
     _responseAmplitudeController.close();
