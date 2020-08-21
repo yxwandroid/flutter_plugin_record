@@ -118,9 +118,7 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
 
     private fun playByPath() {
         val path = call.argument<String>("path")
-        if (recorderUtil == null) {
-            recorderUtil = RecorderUtil(path)
-        }
+        recorderUtil = RecorderUtil(path)
         recorderUtil!!.addPlayStateListener { playState ->
             val _id = call.argument<String>("id")
             val m1 = HashMap<String, String>()
