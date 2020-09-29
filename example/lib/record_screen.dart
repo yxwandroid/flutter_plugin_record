@@ -58,7 +58,7 @@ class _RecordScreenState extends State<RecordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Plugin example app'),
+        title: const Text('录制wav'),
       ),
       body: Center(
         child: Column(
@@ -102,7 +102,7 @@ class _RecordScreenState extends State<RecordScreen> {
             FlatButton(
               child: Text("播放网络wav文件"),
               onPressed: () {
-                playByPath("http://qdtd2yckr.bkt.clouddn.com/%E9%A3%9E%E4%BA%91%E4%B9%8B%E4%B8%8B.wav","url");
+                playByPath("https://test-1259809289.cos.ap-nanjing.myqcloud.com/test.wav","url");
               },
             ),
             FlatButton(

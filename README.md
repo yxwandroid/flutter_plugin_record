@@ -15,6 +15,7 @@
 5. 提供类似微信的录制组件
 6. 提供播放音频结束的监听
 7. 提供根据传递的路径进行语音录制
+8. 提供录制mp3
 
 播放
 1. 提供播放指定路径的音频文件
@@ -56,12 +57,22 @@
 
 ### 使用
 ### 1, 初始化录制
+#### 1.1, 初始化录制(wav)
 可以在页面初始化的时候进行初始化比如: 在initState方法中进行初始化
 
     //实例化对象 
     FlutterPluginRecord   recordPlugin = new FlutterPluginRecord();
     //    初始化
     recordPlugin.init()
+   
+
+#### 1.2, 初始化录制(Mp3)
+可以在页面初始化的时候进行初始化比如: 在initState方法中进行初始化
+
+    //实例化对象 
+    FlutterPluginRecord   recordPlugin = new FlutterPluginRecord();
+    //    初始化
+    recordPlugin.initRecordMp3()
 
 ### 2, 开始录制
    
@@ -244,6 +255,15 @@ stopRecord 停止录制的回调 返回的path是录制成功之后文件的保�
 
 
  
+## android配置注意事项
+ 
+### android 集成的的时候需要在application标签下添加 
+ 
+     
+      tools:replace="android:label"
+     
+
+
 
 
 

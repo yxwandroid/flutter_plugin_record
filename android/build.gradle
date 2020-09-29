@@ -46,4 +46,5 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.github.shaoshuai904:RecordWav:1.0.2'
     implementation "androidx.appcompat:appcompat:1.0.0"
+    implementation 'com.github.adrielcafe:AndroidAudioConverter:0.0.8'
 }
