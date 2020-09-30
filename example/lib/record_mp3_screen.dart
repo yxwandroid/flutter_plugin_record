@@ -140,7 +140,7 @@ class _RecordMp3ScreenState extends State<RecordMp3Screen> {
     setState(() {
       getApplicationDocumentsDirectory().then((value) {
         String nowDataTimeStr = DateUtil.getNowDateMs().toString();
-        String wavPath = value.path + "/" + nowDataTimeStr + ".wav";
+        String wavPath = value.path + "/" + nowDataTimeStr + ".MP3";
         print(wavPath);
         startByWavPath(wavPath);
       });

@@ -26,6 +26,7 @@ typedef void(^AudioSpeakPowerBlock)(float power);
 
 /// 传递录制文件路径
 - (void)initByWavPath:(NSString*) wavPath;
+- (void)initByMp3;
 
 /// 开始录音方法
 - (void)startRecording;

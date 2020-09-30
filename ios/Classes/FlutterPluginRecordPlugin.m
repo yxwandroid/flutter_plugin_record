@@ -36,6 +36,8 @@
     NSString *method = call.method;
     if ([@"init" isEqualToString:method]) {
         [self initRecord ];
+    }else if([@"initRecordMp3" isEqualToString:method]){
+        [self initMp3Record];
     }else if([@"startByWavPath" isEqualToString:method]){
         [self startByWavPath];
     }else if([@"start" isEqualToString:method]){
@@ -57,6 +59,13 @@
 }
 
 
+
+//初始化录制mp3
+- (void) initMp3Record{
+    [DPAudioRecorder.sharedInstance initByMp3];
+    [self initRecord];
+    
+}
 
 ///初始化语音录制的方法 初始化录制完成的回调,开始录制的回调,录制失败的回调,录制音量大小的回调
 /// 注意未初始化的话 Flutter 不能监听到上述回调事件
