@@ -394,7 +394,7 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
     override fun onRequestPermissionsResult(p0: Int, p1: Array<out String>?, p2: IntArray?): Boolean {
         if (p0 == 1) {
             if (p2?.get(0) == PackageManager.PERMISSION_GRANTED) {
-                initRecord()
+//                initRecord()
                 return true
             } else {
                 Toast.makeText(registrar.activity(), "Permission Denied", Toast.LENGTH_SHORT).show()
