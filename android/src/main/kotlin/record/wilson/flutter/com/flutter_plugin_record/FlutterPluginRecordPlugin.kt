@@ -257,16 +257,42 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
 
 
         override fun onStop(recordFile: File?, audioTime: Long?) {
-            LogUtils.LOGE("MessageRecordListener onStop $recordFile")
-            voicePlayPath = recordFile!!.path
-            val _id = call.argument<String>("id")
-            val m1 = HashMap<String, String>()
-            m1["id"] = _id!!
-            m1["voicePath"] = voicePlayPath
-            m1["audioTimeLength"] = audioTime.toString()
-            m1["result"] = "success"
+            if (recordMp3){
+                val callback: IConvertCallback = object : IConvertCallback {
+                    override fun onSuccess(convertedFile: File) {
 
-            registrar.activity().runOnUiThread { channel.invokeMethod("onStop", m1) }
+                        Log.d("android", "  ConvertCallback ${convertedFile.path}")
+
+                        val _id = call.argument<String>("id")
+                        val m1 = HashMap<String, String>()
+                        m1["id"] = _id!!
+                        m1["voicePath"] = convertedFile.path
+                        m1["audioTimeLength"] = audioTime.toString()
+                        m1["result"] = "success"
+                        registrar.activity().runOnUiThread { channel.invokeMethod("onStop", m1) }
+                    }
+
+                    override fun onFailure(error: java.lang.Exception) {
+                        Log.d("android", "  ConvertCallback $error")
+                    }
+                }
+                AndroidAudioConverter.with(registrar.context())
+                        .setFile(recordFile)
+                        .setFormat(AudioFormat.MP3)
+                        .setCallback(callback)
+                        .convert()
+
+            }else{
+                val _id = call.argument<String>("id")
+                val m1 = HashMap<String, String>()
+                m1["id"] = _id!!
+                m1["voicePath"] = voicePlayPath
+                m1["audioTimeLength"] = audioTime.toString()
+                m1["result"] = "success"
+                registrar.activity().runOnUiThread { channel.invokeMethod("onStop", m1) }
+
+            }
+
         }
 
 
