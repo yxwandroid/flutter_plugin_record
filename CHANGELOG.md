@@ -1,3 +1,7 @@
+## 0.3.2
+
+*  修复android 获取权限bug
+
 ## 0.3.1
 
 *  更新IOS podfile
