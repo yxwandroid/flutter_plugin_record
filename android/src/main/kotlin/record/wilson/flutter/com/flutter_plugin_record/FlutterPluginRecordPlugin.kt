@@ -92,7 +92,7 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
             audioHandler?.release()
             audioHandler = null
         }
-        audioHandler = AudioHandler.createHandler(AudioHandler.Frequency.F_8000)
+        audioHandler = AudioHandler.createHandler(AudioHandler.Frequency.F_22050)
 
         Log.d("android voice  ", "init")
         val id = call.argument<String>("id")
