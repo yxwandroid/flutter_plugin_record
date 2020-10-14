@@ -141,8 +141,12 @@ class _RecordMp3ScreenState extends State<RecordMp3Screen> {
       getApplicationDocumentsDirectory().then((value) {
         String nowDataTimeStr = DateUtil.getNowDateMs().toString();
         // TODO  注意IOS 传递的Mp3路径一定是以 .MP3 结尾
-        String wavPath = value.path + "/" + nowDataTimeStr+".MP3";
-        print(wavPath);
+        String wavPath ="";
+        if (Platform.isIOS) {
+           wavPath = value.path + "/" + nowDataTimeStr+".MP3";
+        }else{
+           wavPath = value.path + "/" + nowDataTimeStr;
+        }
         startByWavPath(wavPath);
       });
     });
