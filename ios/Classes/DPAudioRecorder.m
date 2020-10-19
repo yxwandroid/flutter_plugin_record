@@ -177,7 +177,7 @@ static DPAudioRecorder *recorderManager = nil;
         NSLog(@"%@", wavRecordFilePath);
         NSDictionary *param =
         @{AVSampleRateKey:@8000.0,    //采样率
-          AVFormatIDKey:@(kAudioFormatAppleIMA4),//音频格式
+          AVFormatIDKey:@(kAudioFormatLinearPCM),//音频格式
           AVLinearPCMBitDepthKey:@16,    //采样位数 默认 16
           AVNumberOfChannelsKey:@1,   // 通道的数目
           AVEncoderAudioQualityKey:@(AVAudioQualityMin),
