@@ -15,10 +15,11 @@
 5. 提供类似微信的录制组件
 6. 提供播放音频结束的监听
 7. 提供根据传递的路径进行语音录制
+8. 提供录制wav,mp3格式  具体可参考example
 
 播放
 1. 提供播放指定路径的音频文件
-2. 提供播放指定Url地址的wav格式文件
+2. 提供播放指定Url地址的wav,MP3格式文件
 3. 提供播放完成的回调监听
 4. 提供暂停和继续播放的功能
 5. 提供停止播放的功能
@@ -44,7 +45,7 @@
     引入方式3 (引入Flutter仓库的library)
           
     dependencies:
-      flutter_plugin_record: ^0.2.3
+      flutter_plugin_record: ^0.3.4
               
               
           
@@ -56,12 +57,22 @@
 
 ### 使用
 ### 1, 初始化录制
+#### 1.1, 初始化录制(wav)
 可以在页面初始化的时候进行初始化比如: 在initState方法中进行初始化
 
     //实例化对象 
     FlutterPluginRecord   recordPlugin = new FlutterPluginRecord();
     //    初始化
     recordPlugin.init()
+   
+
+#### 1.2, 初始化录制(Mp3)
+可以在页面初始化的时候进行初始化比如: 在initState方法中进行初始化
+
+    //实例化对象 
+    FlutterPluginRecord   recordPlugin = new FlutterPluginRecord();
+    //    初始化
+    recordPlugin.initRecordMp3()
 
 ### 2, 开始录制
    
@@ -244,6 +255,15 @@ stopRecord 停止录制的回调 返回的path是录制成功之后文件的保�
 
 
  
+## android配置注意事项
+ 
+### android 集成的的时候需要在application标签下添加 
+ 
+     
+      tools:replace="android:label"
+     
+
+
 
 
 
@@ -258,6 +278,19 @@ stopRecord 停止录制的回调 返回的path是录制成功之后文件的保�
 
 [肖中旺](https://github.com/xzw421771880)对IOS 播放在线Wav的支持 
 
+
+## 作者的其他开源项目推荐
+
+
+[基于腾讯云点播封装的flutter版的播放器插件 ](https://github.com/yxwandroid/flutter_tencentplayer_plus)
+
+[Flutter 二维码扫描插件](https://github.com/yxwandroid/flutter_plugin_qrcode)
+
+[抖音开发平台SDK Flutter插件](https://github.com/yxwandroid/flutter_plugin_douyin_open)
+
+[FLutter地图插件](https://github.com/yxwandroid/flutter_amap_location)
+
+[Flutter 模板工程](https://github.com/yxwandroid/flutter_app_redux.git)
 
 ## 关注公众号获取更多内容
 

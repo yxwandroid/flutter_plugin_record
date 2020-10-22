@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_plugin_record/flutter_plugin_record.dart';
 import 'package:path_provider/path_provider.dart';
 
-class RecordScreen extends StatefulWidget {
+class RecordMp3Screen extends StatefulWidget {
   @override
-  _RecordScreenState createState() => _RecordScreenState();
+  _RecordMp3ScreenState createState() => _RecordMp3ScreenState();
 }
 
-class _RecordScreenState extends State<RecordScreen> {
+class _RecordMp3ScreenState extends State<RecordMp3Screen> {
   FlutterPluginRecord recordPlugin = new FlutterPluginRecord();
 
   String filePath = "";
@@ -58,15 +58,15 @@ class _RecordScreenState extends State<RecordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('录制wav'),
+        title: const Text('录制mp3'),
       ),
       body: Center(
         child: Column(
           children: <Widget>[
             FlatButton(
-              child: Text("初始化"),
+              child: Text("初始化录制mp3"),
               onPressed: () {
-                _init();
+                _initRecordMp3();
               },
             ),
             FlatButton(
@@ -76,7 +76,7 @@ class _RecordScreenState extends State<RecordScreen> {
               },
             ),
             FlatButton(
-              child: Text("根据路径录制wav文件"),
+              child: Text("根据路径录制mp3文件"),
               onPressed: () {
                 _requestAppDocumentsDirectory();
               },
@@ -100,9 +100,9 @@ class _RecordScreenState extends State<RecordScreen> {
               },
             ),
             FlatButton(
-              child: Text("播放网络wav文件"),
+              child: Text("播放网络mp3文件"),
               onPressed: () {
-                playByPath("https://test-1259809289.cos.ap-nanjing.myqcloud.com/test.wav","url");
+                playByPath("https://test-1259809289.cos.ap-nanjing.myqcloud.com/temp.mp3","url");
               },
             ),
             FlatButton(
@@ -140,16 +140,21 @@ class _RecordScreenState extends State<RecordScreen> {
     setState(() {
       getApplicationDocumentsDirectory().then((value) {
         String nowDataTimeStr = DateUtil.getNowDateMs().toString();
-        String wavPath = value.path + "/" + nowDataTimeStr + ".wav";
-        print(wavPath);
+        // TODO  注意IOS 传递的Mp3路径一定是以 .MP3 结尾
+        String wavPath ="";
+        if (Platform.isIOS) {
+           wavPath = value.path + "/" + nowDataTimeStr+".MP3";
+        }else{
+           wavPath = value.path + "/" + nowDataTimeStr;
+        }
         startByWavPath(wavPath);
       });
     });
   }
 
   ///初始化语音录制的方法
-  void _init() async {
-    recordPlugin.init();
+  void _initRecordMp3() async {
+    recordPlugin.initRecordMp3();
   }
 
   ///开始语音录制的方法

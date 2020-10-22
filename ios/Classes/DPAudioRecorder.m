@@ -27,18 +27,11 @@ static const CSVoiceType preferredVoiceType = CSVoiceTypeWav;
     dispatch_source_t timer;
     NSTimeInterval __block audioTimeLength; //录音时长
 }
-
-
 @property (nonatomic, strong) AVAudioRecorder *audioRecorder;
 @property (nonatomic, strong) NSString *originWaveFilePath;
-
-
-
 @end
 
 @implementation DPAudioRecorder
-
-
 
 static DPAudioRecorder *recorderManager = nil;
 
@@ -71,9 +64,27 @@ static DPAudioRecorder *recorderManager = nil;
     }
     return self;
 }
- 
+
+
+- (void) initByMp3{
+    //创建缓存录音文件到Tmp
+    NSString *mp3RecordFilePath = [self createMp3FilePath];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:mp3RecordFilePath]) {
+        [[NSData data] writeToFile:mp3RecordFilePath atomically:YES];
+    }
+    self.originWaveFilePath = mp3RecordFilePath;
+    
+    NSLog(@"ios------初始化录制文件路径---%@",mp3RecordFilePath);
+
+}
+
+- (NSString *) createMp3FilePath {
+    return [NSTemporaryDirectory() stringByAppendingPathComponent:@"WAVtemporaryRadio.MP3"];
+  
+}
 - (NSString *) createWaveFilePath {
     return [NSTemporaryDirectory() stringByAppendingPathComponent:@"WAVtemporaryRadio.wav"];
+  
 }
 
 /// 根据传递过来的文件路径创建wav录制文件路径
@@ -85,8 +96,8 @@ static DPAudioRecorder *recorderManager = nil;
                [[NSData data] writeToFile:wavRecordFilePath atomically:YES];
            }
            
-         self.originWaveFilePath = wavPath;
-        NSLog(@"ios-----传递的录制文件路径-------- %@",wavPath);
+         self.originWaveFilePath = wavRecordFilePath;
+        NSLog(@"ios-----传递的录制文件路径-------- %@",wavRecordFilePath);
 }
 
 /// 开始录制方法
@@ -169,8 +180,8 @@ static DPAudioRecorder *recorderManager = nil;
           AVFormatIDKey:@(kAudioFormatLinearPCM),//音频格式
           AVLinearPCMBitDepthKey:@16,    //采样位数 默认 16
           AVNumberOfChannelsKey:@1,   // 通道的数目
-//          AVEncoderAudioQualityKey:@(AVAudioQualityHigh),
-//          AVEncoderBitRateKey:@128000,
+          AVEncoderAudioQualityKey:@(AVAudioQualityMin),
+          AVEncoderBitRateKey:@16000,
 //          AVEncoderBitRateStrategyKey:AVAudioBitRateStrategy_VariableConstrained
           };
         

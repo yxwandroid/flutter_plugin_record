@@ -1,6 +1,7 @@
 name: flutter_plugin_record_example
+version: 0.3.0
 description: The flutter voice recording plug-in,provides the recording animation and the recording successfully returns to the recording file path
-publish_to: 'none'
+publish_to: "none"
 
 environment:
   sdk: ">=2.2.0 <3.0.0"
@@ -14,6 +15,8 @@ dependencies:
   cupertino_icons: ^0.1.2
   path_provider: ^1.6.8
   flustars: ^0.3.2
+#  flutter_plugin_record:
+#    path: ../
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -31,14 +34,14 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-#  assets:
-#    - images/voice_volume_1.png
-#    - images/voice_volume_2.png
-#    - images/voice_volume_3.png
-#    - images/voice_volume_4.png
-#    - images/voice_volume_5.png
-#    - images/voice_volume_6.png
-#    - images/voice_volume_7.png
+  #  assets:
+  #    - images/voice_volume_1.png
+  #    - images/voice_volume_2.png
+  #    - images/voice_volume_3.png
+  #    - images/voice_volume_4.png
+  #    - images/voice_volume_5.png
+  #    - images/voice_volume_6.png
+  #    - images/voice_volume_7.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

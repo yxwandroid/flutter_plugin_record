@@ -19,8 +19,7 @@ class FlutterPluginRecord {
   }
 
   ///Flutter  调用原生初始化
-  Future<dynamic> _invokeMethod(String method,
-      [Map<String, dynamic> arguments = const {}]) {
+  Future<dynamic> _invokeMethod(String method, [Map<String, dynamic> arguments = const {}]) {
     Map<String, dynamic> withId = Map.of(arguments);
     withId['id'] = id;
     _channel.setMethodCallHandler(_handler);
@@ -28,8 +27,7 @@ class FlutterPluginRecord {
   }
 
   ///初始化init的回调
-  StreamController<bool> _responseInitController =
-      new StreamController.broadcast();
+  StreamController<bool> _responseInitController = new StreamController.broadcast();
 
   Stream<bool> get responseFromInit => _responseInitController.stream;
 
@@ -139,6 +137,15 @@ class FlutterPluginRecord {
       "init": "init",
     });
   }
+
+  //初始化
+  Future initRecordMp3() async {
+    return await _invokeMethod('initRecordMp3', <String, String>{
+      "initRecordMp3": "initRecordMp3",
+    });
+  }
+
+
 
   Future start() async {
     return await _invokeMethod('start', <String, String>{

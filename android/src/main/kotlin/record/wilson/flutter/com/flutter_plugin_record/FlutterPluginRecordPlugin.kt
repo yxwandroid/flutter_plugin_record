@@ -2,11 +2,14 @@ package record.wilson.flutter.com.flutter_plugin_record
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import cafe.adriel.androidaudioconverter.AndroidAudioConverter
+import cafe.adriel.androidaudioconverter.callback.IConvertCallback
+import cafe.adriel.androidaudioconverter.callback.ILoadCallback
+import cafe.adriel.androidaudioconverter.model.AudioFormat
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -26,6 +29,7 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
     private lateinit var call: MethodCall
     private lateinit var voicePlayPath: String
     private var recorderUtil: RecorderUtil? = null
+    private var recordMp3:Boolean=false;
 
     @Volatile
     private var audioHandler: AudioHandler? = null
@@ -53,6 +57,7 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
         this.call = call
         when (call.method) {
             "init" -> init()
+            "initRecordMp3" -> initRecordMp3()
             "start" -> start()
             "startByWavPath" -> startByWavPath()
             "stop" -> stop()
@@ -66,12 +71,28 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
 
 
 
+    //初始化wav转 MP3
+    private fun initWavToMp3(){
+        AndroidAudioConverter.load(registrar.context(), object : ILoadCallback {
+            override fun onSuccess() {
+                // Great!
+                Log.d("android", "  AndroidAudioConverter onSuccess")
+            }
+
+            override fun onFailure(error: Exception) {
+                // FFmpeg is not supported by device
+                Log.d("android", "  AndroidAudioConverter onFailure")
+            }
+        })
+
+    }
+
     private fun initRecord() {
         if (audioHandler != null) {
             audioHandler?.release()
             audioHandler = null
         }
-        audioHandler = AudioHandler.createHandler(AudioHandler.Frequency.F_8000)
+        audioHandler = AudioHandler.createHandler(AudioHandler.Frequency.F_22050)
 
         Log.d("android voice  ", "init")
         val id = call.argument<String>("id")
@@ -198,10 +219,14 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
 
 
     private fun init() {
-
+        recordMp3=false
         checkPermission()
     }
-
+    private fun initRecordMp3(){
+        recordMp3=true
+        checkPermission()
+        initWavToMp3()
+    }
 
     private fun checkPermission() {
         var packageManager = registrar.activity().packageManager
@@ -232,16 +257,46 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
 
 
         override fun onStop(recordFile: File?, audioTime: Long?) {
-            LogUtils.LOGE("MessageRecordListener onStop $recordFile")
-            voicePlayPath = recordFile!!.path
-            val _id = call.argument<String>("id")
-            val m1 = HashMap<String, String>()
-            m1["id"] = _id!!
-            m1["voicePath"] = voicePlayPath
-            m1["audioTimeLength"] = audioTime.toString()
-            m1["result"] = "success"
+            if (recordFile != null) {
+                voicePlayPath = recordFile.path
+                if (recordMp3){
 
-            registrar.activity().runOnUiThread { channel.invokeMethod("onStop", m1) }
+                    val callback: IConvertCallback = object : IConvertCallback {
+                        override fun onSuccess(convertedFile: File) {
+
+                            Log.d("android", "  ConvertCallback ${convertedFile.path}")
+
+                            val _id = call.argument<String>("id")
+                            val m1 = HashMap<String, String>()
+                            m1["id"] = _id!!
+                            m1["voicePath"] = convertedFile.path
+                            m1["audioTimeLength"] = audioTime.toString()
+                            m1["result"] = "success"
+                            registrar.activity().runOnUiThread { channel.invokeMethod("onStop", m1) }
+                        }
+
+                        override fun onFailure(error: java.lang.Exception) {
+                            Log.d("android", "  ConvertCallback $error")
+                        }
+                    }
+                    AndroidAudioConverter.with(registrar.context())
+                            .setFile(recordFile)
+                            .setFormat(AudioFormat.MP3)
+                            .setCallback(callback)
+                            .convert()
+
+                }else{
+                    val _id = call.argument<String>("id")
+                    val m1 = HashMap<String, String>()
+                    m1["id"] = _id!!
+                    m1["voicePath"] = voicePlayPath
+                    m1["audioTimeLength"] = audioTime.toString()
+                    m1["result"] = "success"
+                    registrar.activity().runOnUiThread { channel.invokeMethod("onStop", m1) }
+
+                }
+            }
+
         }
 
 
@@ -284,15 +339,45 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
     private inner class MessageRecordListener : AudioHandler.RecordListener {
         override fun onStop(recordFile: File?, audioTime: Long?) {
             LogUtils.LOGE("MessageRecordListener onStop $recordFile")
-            voicePlayPath = recordFile!!.path
-            val _id = call.argument<String>("id")
-            val m1 = HashMap<String, String>()
-            m1["id"] = _id!!
-            m1["voicePath"] = voicePlayPath
-            m1["audioTimeLength"] = audioTime.toString()
-            m1["result"] = "success"
+            if (recordFile != null) {
+                voicePlayPath = recordFile.path
+                if (recordMp3){
+                    val callback: IConvertCallback = object : IConvertCallback {
+                        override fun onSuccess(convertedFile: File) {
 
-            registrar.activity().runOnUiThread { channel.invokeMethod("onStop", m1) }
+                            Log.d("android", "  ConvertCallback ${convertedFile.path}")
+
+                            val _id = call.argument<String>("id")
+                            val m1 = HashMap<String, String>()
+                            m1["id"] = _id!!
+                            m1["voicePath"] = convertedFile.path
+                            m1["audioTimeLength"] = audioTime.toString()
+                            m1["result"] = "success"
+                            registrar.activity().runOnUiThread { channel.invokeMethod("onStop", m1) }
+                        }
+
+                        override fun onFailure(error: java.lang.Exception) {
+                            Log.d("android", "  ConvertCallback $error")
+                        }
+                    }
+                    AndroidAudioConverter.with(registrar.context())
+                            .setFile(recordFile)
+                            .setFormat(AudioFormat.MP3)
+                            .setCallback(callback)
+                            .convert()
+
+                }else{
+                    val _id = call.argument<String>("id")
+                    val m1 = HashMap<String, String>()
+                    m1["id"] = _id!!
+                    m1["voicePath"] = voicePlayPath
+                    m1["audioTimeLength"] = audioTime.toString()
+                    m1["result"] = "success"
+                    registrar.activity().runOnUiThread { channel.invokeMethod("onStop", m1) }
+
+                }
+            }
+
         }
 
 
@@ -337,6 +422,7 @@ class FlutterPluginRecordPlugin : MethodCallHandler, PluginRegistry.RequestPermi
     override fun onRequestPermissionsResult(p0: Int, p1: Array<out String>?, p2: IntArray?): Boolean {
         if (p0 == 1) {
             if (p2?.get(0) == PackageManager.PERMISSION_GRANTED) {
+//                initRecord()
                 return true
             } else {
                 Toast.makeText(registrar.activity(), "Permission Denied", Toast.LENGTH_SHORT).show()
