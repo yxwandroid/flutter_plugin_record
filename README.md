@@ -289,7 +289,8 @@ stopRecord 停止录制的回调 返回的path是录制成功之后文件的保�
 [抖音开发平台SDK Flutter插件](https://github.com/yxwandroid/flutter_plugin_douyin_open)
 
 [FLutter地图插件](https://github.com/yxwandroid/flutter_amap_location)
-[Flutter 模板工程](https://github.com/yxwandroid/flutter_template)
+
+[Flutter 模板工程](https://github.com/yxwandroid/flutter_app_redux.git)
 
 ## 关注公众号获取更多内容
 
