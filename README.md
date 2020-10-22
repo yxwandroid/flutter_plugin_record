@@ -279,6 +279,18 @@ stopRecord 停止录制的回调 返回的path是录制成功之后文件的保�
 [肖中旺](https://github.com/xzw421771880)对IOS 播放在线Wav的支持 
 
 
+## 作者的其他开源项目推荐
+
+
+[基于腾讯云点播封装的flutter版的播放器插件 ](https://github.com/yxwandroid/flutter_tencentplayer_plus)
+
+[Flutter 二维码扫描插件](https://github.com/yxwandroid/flutter_plugin_qrcode)
+
+[抖音开发平台SDK Flutter插件](https://github.com/yxwandroid/flutter_plugin_douyin_open)
+
+[FLutter地图插件](https://github.com/yxwandroid/flutter_amap_location)
+[Flutter 模板工程](https://github.com/yxwandroid/flutter_template)
+
 ## 关注公众号获取更多内容
 
 <img src="README_images/f53502b3.png" width="200" hegiht="313" align=center />
