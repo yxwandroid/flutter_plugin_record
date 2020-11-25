@@ -260,6 +260,14 @@ stopRecord 停止录制的回调 返回的path是录制成功之后文件的保�
      	</dict>
 
 
+
+### ios release 打包失败配置注意事项
+
+<!--![](.README_images/ios.gif)-->
+<img src="README_images/ios-error.jpg" width="400"  align=center />
+
+
+
  
 ## android配置注意事项
  
