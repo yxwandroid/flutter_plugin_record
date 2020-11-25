@@ -251,7 +251,13 @@ stopRecord 停止录制的回调 返回的path是录制成功之后文件的保�
      
      <key>NSMicrophoneUsageDescription</key>
             <string>打开话筒</string>
-     
+
+
+     <key>NSAppTransportSecurity</key>
+     	<dict>
+     		<key>NSAllowsArbitraryLoads</key>
+     		<true/>
+     	</dict>
 
 
  
