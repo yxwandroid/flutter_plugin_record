@@ -52,15 +52,14 @@ class _WeChatRecordScreenState extends State<WeChatRecordScreen> {
     }
   }
 
-
-  startRecord(){
-    print("111开始录制");
+  startRecord() {
+    print("开始录制");
   }
 
-  stopRecord(String path,double audioTimeLength ){
+  stopRecord(String path, double audioTimeLength) {
     print("结束束录制");
-    print("音频文件位置"+path);
-    print("音频录制时长"+audioTimeLength.toString());
+    print("音频文件位置" + path);
+    print("音频录制时长" + audioTimeLength.toString());
   }
 
   @override
@@ -95,7 +94,12 @@ class _WeChatRecordScreenState extends State<WeChatRecordScreen> {
                   });
                 },
                 child: new Text("悬浮窗状态更新")),
-            new VoiceWidget(startRecord: startRecord,stopRecord: stopRecord),
+            new VoiceWidget(
+              startRecord: startRecord,
+              stopRecord: stopRecord,
+              // 加入定制化Container的相关属性
+              height: 40.0,
+            ),
           ],
         ),
       ),

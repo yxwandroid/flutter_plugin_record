@@ -1,5 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_plugin_record/flutter_plugin_record.dart';
+import 'package:flutter_plugin_record/utils/common_toast.dart';
+
+import 'custom_overlay.dart';
 
 typedef startRecord = Future Function();
 typedef stopRecord = Future Function();
@@ -7,9 +12,18 @@ typedef stopRecord = Future Function();
 class VoiceWidget extends StatefulWidget {
   final Function startRecord;
   final Function stopRecord;
+  final double height;
+  final EdgeInsets margin;
+  final Decoration decoration;
 
   /// startRecord 开始录制回调  stopRecord回调
-  const VoiceWidget({Key key, this.startRecord, this.stopRecord})
+  const VoiceWidget(
+      {Key key,
+      this.startRecord,
+      this.stopRecord,
+      this.height,
+      this.decoration,
+      this.margin})
       : super(key: key);
 
   @override
@@ -17,6 +31,8 @@ class VoiceWidget extends StatefulWidget {
 }
 
 class _VoiceWidgetState extends State<VoiceWidget> {
+  // 倒计时总时长
+  int _countTotal = 12;
   double starty = 0.0;
   double offset = 0.0;
   bool isUp = false;
@@ -26,8 +42,10 @@ class _VoiceWidgetState extends State<VoiceWidget> {
 
   ///默认隐藏状态
   bool voiceState = true;
-  OverlayEntry overlayEntry;
   FlutterPluginRecord recordPlugin;
+  Timer _timer;
+  int _count = 0;
+  OverlayEntry overlayEntry;
 
   @override
   void initState() {
@@ -50,10 +68,11 @@ class _VoiceWidgetState extends State<VoiceWidget> {
       if (data.msg == "onStop") {
         ///结束录制时会返回录制文件的地址方便上传服务器
         print("onStop  " + data.path);
-        widget.stopRecord(data.path, data.audioTimeLength);
+        if (widget.stopRecord != null)
+          widget.stopRecord(data.path, data.audioTimeLength);
       } else if (data.msg == "onStart") {
         print("onStart --");
-        widget.startRecord();
+        if (widget.startRecord != null) widget.startRecord();
       }
     });
 
@@ -91,48 +110,43 @@ class _VoiceWidgetState extends State<VoiceWidget> {
   buildOverLayView(BuildContext context) {
     if (overlayEntry == null) {
       overlayEntry = new OverlayEntry(builder: (content) {
-        return Positioned(
-          top: MediaQuery.of(context).size.height * 0.5 - 80,
-          left: MediaQuery.of(context).size.width * 0.5 - 80,
-          child: Material(
-            type: MaterialType.transparency,
-            child: Center(
-              child: Opacity(
-                opacity: 0.8,
-                child: Container(
-                  width: 160,
-                  height: 160,
-                  decoration: BoxDecoration(
-                    color: Color(0xff77797A),
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(top: 10),
-                        child: new Image.asset(
-                          voiceIco,
-                          width: 100,
-                          height: 100,
-                          package: 'flutter_plugin_record',
-                        ),
-                      ),
-                      Container(
-//                      padding: EdgeInsets.only(right: 20, left: 20, top: 0),
-                        child: Text(
-                          toastShow,
-                          style: TextStyle(
-                            fontStyle: FontStyle.normal,
-                            color: Colors.white,
-                            fontSize: 14,
+        return CustomOverlay(
+          icon: Column(
+            children: <Widget>[
+              Container(
+                margin: const EdgeInsets.only(top: 10),
+                child: _countTotal - _count < 11
+                    ? Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 15.0),
+                          child: Text(
+                            (_countTotal - _count).toString(),
+                            style: TextStyle(
+                              fontSize: 70.0,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       )
-                    ],
+                    : new Image.asset(
+                        voiceIco,
+                        width: 100,
+                        height: 100,
+                        package: 'flutter_plugin_record',
+                      ),
+              ),
+              Container(
+//                      padding: const EdgeInsets.only(right: 20, left: 20, top: 0),
+                child: Text(
+                  toastShow,
+                  style: TextStyle(
+                    fontStyle: FontStyle.normal,
+                    color: Colors.white,
+                    fontSize: 14,
                   ),
                 ),
-              ),
-            ),
+              )
+            ],
           ),
         );
       });
@@ -145,11 +159,29 @@ class _VoiceWidgetState extends State<VoiceWidget> {
       textShow = "松开结束";
       voiceState = false;
     });
+
+    ///显示录音悬浮布局
     buildOverLayView(context);
+
     start();
   }
 
   hideVoiceView() {
+    if (_timer.isActive) {
+      if (_count < 1) {
+        CommonToast.showView(
+            context: context,
+            msg: '说话时间太短',
+            icon: Text(
+              '!',
+              style: TextStyle(fontSize: 80, color: Colors.white),
+            ));
+        isUp = true;
+      }
+      _timer.cancel();
+      _count = 0;
+    }
+
     setState(() {
       textShow = "按住说话";
       voiceState = true;
@@ -201,22 +233,33 @@ class _VoiceWidgetState extends State<VoiceWidget> {
   Widget build(BuildContext context) {
     return Container(
       child: GestureDetector(
-         onLongPressStart: (details) {
-           starty = details.globalPosition.dy;
-           showVoiceView();
-
-         },
-         onLongPressEnd: (details) {
-           hideVoiceView();
-         },
-         onLongPressMoveUpdate: (details) {
-           offset = details.globalPosition.dy;
-           moveVoiceView();
-         },
+        onLongPressStart: (details) {
+          starty = details.globalPosition.dy;
+          _timer = Timer.periodic(Duration(milliseconds: 1000), (t) {
+            _count++;
+            print('_count is 👉 $_count');
+            if (_count == _countTotal) {
+              hideVoiceView();
+            }
+          });
+          showVoiceView();
+        },
+        onLongPressEnd: (details) {
+          hideVoiceView();
+        },
+        onLongPressMoveUpdate: (details) {
+          offset = details.globalPosition.dy;
+          moveVoiceView();
+        },
         child: Container(
-          height: 60,
-          color: Colors.blue,
-          margin: EdgeInsets.fromLTRB(50, 0, 50, 20),
+          height: widget.height ?? 60,
+          // color: Colors.blue,
+          decoration: widget.decoration ??
+              BoxDecoration(
+                borderRadius: new BorderRadius.circular(6.0),
+                border: Border.all(width: 1.0, color: Colors.grey[200]),
+              ),
+          margin: widget.margin ?? EdgeInsets.fromLTRB(50, 0, 50, 20),
           child: Center(
             child: Text(
               textShow,
@@ -229,9 +272,8 @@ class _VoiceWidgetState extends State<VoiceWidget> {
 
   @override
   void dispose() {
-    if (recordPlugin != null) {
-      recordPlugin.dispose();
-    }
+    recordPlugin?.dispose();
+    _timer?.cancel();
     super.dispose();
   }
 }
