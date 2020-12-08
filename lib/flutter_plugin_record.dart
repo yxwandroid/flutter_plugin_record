@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:flutter_plugin_record/play_state.dart';
-import 'package:flutter_plugin_record/response.dart';
+import 'package:flutter_plugin_record/const/play_state.dart';
+import 'package:flutter_plugin_record/const/response.dart';
 import 'package:uuid/uuid.dart';
 
 class FlutterPluginRecord {
@@ -15,11 +15,12 @@ class FlutterPluginRecord {
   FlutterPluginRecord() {
     id = _uuid.v4();
     alis[id] = this;
-    print("--------FlutterPluginRecord init");
+    // print("--------FlutterPluginRecord init");
   }
 
   ///Flutter  调用原生初始化
-  Future<dynamic> _invokeMethod(String method, [Map<String, dynamic> arguments = const {}]) {
+  Future<dynamic> _invokeMethod(String method,
+      [Map<String, dynamic> arguments = const {}]) {
     Map<String, dynamic> withId = Map.of(arguments);
     withId['id'] = id;
     _channel.setMethodCallHandler(_handler);
@@ -27,7 +28,8 @@ class FlutterPluginRecord {
   }
 
   ///初始化init的回调
-  StreamController<bool> _responseInitController = new StreamController.broadcast();
+  StreamController<bool> _responseInitController =
+      new StreamController.broadcast();
 
   Stream<bool> get responseFromInit => _responseInitController.stream;
 
@@ -53,7 +55,7 @@ class FlutterPluginRecord {
 
   ///原生回调
   static Future<dynamic> _handler(MethodCall methodCall) {
-    print("--------FlutterPluginRecord " + methodCall.method);
+    // print("--------FlutterPluginRecord " + methodCall.method);
 
     String id = (methodCall.arguments as Map)['id'];
     FlutterPluginRecord recordPlugin = alis[id];
@@ -145,13 +147,12 @@ class FlutterPluginRecord {
     });
   }
 
-
-
   Future start() async {
     return await _invokeMethod('start', <String, String>{
       "start": "start",
     });
   }
+
   Future startByWavPath(String wavPath) async {
     return await _invokeMethod('startByWavPath', <String, String>{
       "wavPath": wavPath,
@@ -176,7 +177,6 @@ class FlutterPluginRecord {
 //      "path": path,
 //    });
 //  }
-
 
   ///
   /// 参数 path  播放音频的地址
@@ -204,8 +204,7 @@ class FlutterPluginRecord {
 
   /// 提供停止播放的功能
   Future stopPlay() async {
-    return await _invokeMethod('stopPlay', <String, String>{
-    });
+    return await _invokeMethod('stopPlay', <String, String>{});
   }
 
   dispose() {
