@@ -305,7 +305,7 @@ NSData* WriteWavFileHeader(long lengthWithHeader, int sampleRate, int channels, 
         __strong __typeof(weakSelf) _self = weakSelf;
         
         [_self->_audioRecorder updateMeters];
-        double lowPassResults = pow(10, (0.05 * [_self->_audioRecorder peakPowerForChannel:0]));
+        double lowPassResults = pow(10, (0.05 * [_self->_audioRecorder averagePowerForChannel:0]));
         if (_self.audioSpeakPower) {
             _self.audioSpeakPower(lowPassResults);
         }
