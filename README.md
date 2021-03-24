@@ -45,7 +45,7 @@
     引入方式3 (引入Flutter仓库的library)
           
     dependencies:
-      flutter_plugin_record: ^0.3.4
+      flutter_plugin_record: ^1.0.0
               
               
           
