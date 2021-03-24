@@ -5,19 +5,19 @@ import 'package:flutter_plugin_record/widgets/custom_overlay.dart';
 
 class CommonToast {
   static showView({
-    BuildContext context,
-    String msg,
-    TextStyle style,
-    Widget icon,
+    BuildContext? context,
+    String? msg,
+    TextStyle? style,
+    Widget? icon,
     Duration duration = const Duration(seconds: 1),
     int count = 3,
-    Function onTap,
+    Function? onTap,
   }) {
-    OverlayEntry overlayEntry;
+    OverlayEntry? overlayEntry;
     int _count = 0;
 
     void removeOverlay() {
-      overlayEntry.remove();
+      overlayEntry?.remove();
       overlayEntry = null;
     }
 
@@ -43,7 +43,7 @@ class CommonToast {
                   Container(
 //                      padding: EdgeInsets.only(right: 20, left: 20, top: 0),
                     child: Text(
-                      msg,
+                      msg ?? '',
                       style: style ??
                           TextStyle(
                             fontStyle: FontStyle.normal,
@@ -58,7 +58,7 @@ class CommonToast {
           ),
         );
       });
-      Overlay.of(context).insert(overlayEntry);
+      Overlay.of(context!)!.insert(overlayEntry!);
       if (onTap != null) return;
       Timer.periodic(duration, (timer) {
         _count++;

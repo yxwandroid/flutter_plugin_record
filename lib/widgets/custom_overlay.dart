@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class CustomOverlay extends StatelessWidget {
-  final Widget icon;
+  final Widget? icon;
   final BoxDecoration decoration;
   final double width;
   final double height;
   const CustomOverlay({
-    Key key,
+    Key? key,
     this.icon,
     this.decoration = const BoxDecoration(
       color: Color(0xff77797A),
