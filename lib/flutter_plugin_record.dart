@@ -9,7 +9,7 @@ class FlutterPluginRecord {
   final MethodChannel _channel = const MethodChannel('flutter_plugin_record');
 
   static final _uuid = new Uuid();
-  String id;
+  String id = '';
   static final alis = new Map<String, FlutterPluginRecord>();
 
   FlutterPluginRecord() {
@@ -54,11 +54,11 @@ class FlutterPluginRecord {
       _responsePlayStateController.stream;
 
   ///原生回调
-  static Future<dynamic> _handler(MethodCall methodCall) {
+  static Future<dynamic> _handler(MethodCall methodCall) async{
     // print("--------FlutterPluginRecord " + methodCall.method);
 
     String id = (methodCall.arguments as Map)['id'];
-    FlutterPluginRecord recordPlugin = alis[id];
+    FlutterPluginRecord recordPlugin = alis[id] ?? FlutterPluginRecord();
     switch (methodCall.method) {
       case "onInit":
         bool flag = false;
@@ -129,7 +129,6 @@ class FlutterPluginRecord {
         print("default");
         break;
     }
-
     return null;
   }
 
