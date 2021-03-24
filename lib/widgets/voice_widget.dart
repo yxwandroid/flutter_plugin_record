@@ -10,15 +10,15 @@ typedef startRecord = Future Function();
 typedef stopRecord = Future Function();
 
 class VoiceWidget extends StatefulWidget {
-  final Function startRecord;
-  final Function stopRecord;
-  final double height;
-  final EdgeInsets margin;
-  final Decoration decoration;
+  final Function? startRecord;
+  final Function? stopRecord;
+  final double? height;
+  final EdgeInsets? margin;
+  final Decoration? decoration;
 
   /// startRecord 开始录制回调  stopRecord回调
   const VoiceWidget(
-      {Key key,
+      {Key? key,
       this.startRecord,
       this.stopRecord,
       this.height,
@@ -42,10 +42,10 @@ class _VoiceWidgetState extends State<VoiceWidget> {
 
   ///默认隐藏状态
   bool voiceState = true;
-  FlutterPluginRecord recordPlugin;
-  Timer _timer;
+  FlutterPluginRecord? recordPlugin;
+  Timer? _timer;
   int _count = 0;
-  OverlayEntry overlayEntry;
+  OverlayEntry? overlayEntry;
 
   @override
   void initState() {
@@ -55,7 +55,7 @@ class _VoiceWidgetState extends State<VoiceWidget> {
     _init();
 
     ///初始化方法的监听
-    recordPlugin.responseFromInit.listen((data) {
+    recordPlugin?.responseFromInit.listen((data) {
       if (data) {
         print("初始化成功");
       } else {
@@ -64,21 +64,21 @@ class _VoiceWidgetState extends State<VoiceWidget> {
     });
 
     /// 开始录制或结束录制的监听
-    recordPlugin.response.listen((data) {
+    recordPlugin?.response.listen((data) {
       if (data.msg == "onStop") {
         ///结束录制时会返回录制文件的地址方便上传服务器
-        print("onStop  " + data.path);
+        print("onStop  " + data.path!);
         if (widget.stopRecord != null)
-          widget.stopRecord(data.path, data.audioTimeLength);
+          widget.stopRecord!(data.path, data.audioTimeLength);
       } else if (data.msg == "onStart") {
         print("onStart --");
-        if (widget.startRecord != null) widget.startRecord();
+        if (widget.startRecord != null) widget.startRecord!();
       }
     });
 
     ///录制过程监听录制的声音的大小 方便做语音动画显示图片的样式
-    recordPlugin.responseFromAmplitude.listen((data) {
-      var voiceData = double.parse(data.msg);
+    recordPlugin!.responseFromAmplitude.listen((data) {
+      var voiceData = double.parse(data.msg ?? '');
       setState(() {
         if (voiceData > 0 && voiceData < 0.1) {
           voiceIco = "images/voice_volume_2.png";
@@ -98,7 +98,7 @@ class _VoiceWidgetState extends State<VoiceWidget> {
           voiceIco = "images/voice_volume_1.png";
         }
         if (overlayEntry != null) {
-          overlayEntry.markNeedsBuild();
+          overlayEntry!.markNeedsBuild();
         }
       });
 
@@ -150,7 +150,7 @@ class _VoiceWidgetState extends State<VoiceWidget> {
           ),
         );
       });
-      Overlay.of(context).insert(overlayEntry);
+      Overlay.of(context)!.insert(overlayEntry!);
     }
   }
 
@@ -167,7 +167,7 @@ class _VoiceWidgetState extends State<VoiceWidget> {
   }
 
   hideVoiceView() {
-    if (_timer.isActive) {
+    if (_timer!.isActive) {
       if (_count < 1) {
         CommonToast.showView(
             context: context,
@@ -178,7 +178,7 @@ class _VoiceWidgetState extends State<VoiceWidget> {
             ));
         isUp = true;
       }
-      _timer.cancel();
+      _timer?.cancel();
       _count = 0;
     }
 
@@ -189,7 +189,7 @@ class _VoiceWidgetState extends State<VoiceWidget> {
 
     stop();
     if (overlayEntry != null) {
-      overlayEntry.remove();
+      overlayEntry?.remove();
       overlayEntry = null;
     }
 
@@ -216,17 +216,17 @@ class _VoiceWidgetState extends State<VoiceWidget> {
 
   ///初始化语音录制的方法
   void _init() async {
-    recordPlugin.init();
+    recordPlugin?.init();
   }
 
   ///开始语音录制的方法
   void start() async {
-    recordPlugin.start();
+    recordPlugin?.start();
   }
 
   ///停止语音录制的方法
   void stop() {
-    recordPlugin.stop();
+    recordPlugin?.stop();
   }
 
   @override
@@ -257,7 +257,7 @@ class _VoiceWidgetState extends State<VoiceWidget> {
           decoration: widget.decoration ??
               BoxDecoration(
                 borderRadius: new BorderRadius.circular(6.0),
-                border: Border.all(width: 1.0, color: Colors.grey[200]),
+                border: Border.all(width: 1.0, color: Colors.grey.shade200),
               ),
           margin: widget.margin ?? EdgeInsets.fromLTRB(50, 0, 50, 20),
           child: Center(
