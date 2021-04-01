@@ -155,7 +155,7 @@ public final class AudioHandler extends Handler {
                 @Override
                 public void onTimeChange(long time) {
                     //Log.v("AudioTimerTag", time + "--> AudioTimer");
-                    audioTime = time / 1000.0;
+                    audioTime = time / 10.0;
                 }
             }).build();
 
