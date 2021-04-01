@@ -297,7 +297,7 @@ class FlutterPluginRecordPlugin : FlutterPlugin, MethodCallHandler, ActivityAwar
         }
 
 
-        override fun onStop(recordFile: File?, audioTime: Long?) {
+        override fun onStop(recordFile: File?, audioTime: Double?) {
             if (recordFile != null) {
                 voicePlayPath = recordFile.path
                 if (recordMp3){
@@ -378,7 +378,7 @@ class FlutterPluginRecordPlugin : FlutterPlugin, MethodCallHandler, ActivityAwar
 
 
     private inner class MessageRecordListener : AudioHandler.RecordListener {
-        override fun onStop(recordFile: File?, audioTime: Long?) {
+        override fun onStop(recordFile: File?, audioTime: Double?) {
             LogUtils.LOGE("MessageRecordListener onStop $recordFile")
             if (recordFile != null) {
                 voicePlayPath = recordFile.path

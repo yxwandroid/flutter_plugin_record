@@ -147,15 +147,15 @@ public final class AudioHandler extends Handler {
         private volatile boolean isCancel;
         private String tag = "AudioTimerTag";
 
-        private long audioTime = 0;  //录音时长
+        private double audioTime = 0;  //录音时长
 
         //--设置 tag 后可以通过 tag 操作--
         private void initTimer() {
-            TimerUtils.makeBuilder().setTag(tag).setInitDelay(0).setDelay(1000).setCallbacks(new ITimerChangeCallback() {
+            TimerUtils.makeBuilder().setTag(tag).setInitDelay(0).setDelay(100).setCallbacks(new ITimerChangeCallback() {
                 @Override
                 public void onTimeChange(long time) {
                     //Log.v("AudioTimerTag", time + "--> AudioTimer");
-                    audioTime = time;
+                    audioTime = time / 1000.0;
                 }
             }).build();
 
@@ -413,7 +413,7 @@ public final class AudioHandler extends Handler {
         void onVolume(double db);
 
 //        void onStop(File recordFile);
-        void onStop(File recordFile,Long audioTime);
+        void onStop(File recordFile,Double audioTime);
         void onError(int error);
     }
 
