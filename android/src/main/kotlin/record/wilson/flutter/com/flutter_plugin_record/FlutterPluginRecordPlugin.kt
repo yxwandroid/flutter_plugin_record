@@ -263,7 +263,6 @@ class FlutterPluginRecordPlugin : FlutterPlugin, MethodCallHandler, ActivityAwar
 
     private fun init() {
         recordMp3=false
-        checkPermission()
     }
     private fun initRecordMp3(){
         recordMp3=true
