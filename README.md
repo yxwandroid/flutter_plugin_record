@@ -4,6 +4,7 @@
 # 使用Flutter实现 仿微信录音的插件 
 插件支持android 和IOS
 
+更新Android的build.gradle，修复RecordWav和AndroidAudioConverter库的问题
 
 -------
 插件提供的功能
@@ -34,18 +35,8 @@
     引入方式1(引入最新的版本)
     flutter_plugin_record:
         git:
-          url: https://github.com/yxwandroid/flutter_plugin_record.git
+          url: https://github.com/szuwest/flutter_plugin_record.git
     
-    引入方式2 (引入指定某次commit)
-    flutter_plugin_record:
-        git:
-          url: https://github.com/yxwandroid/flutter_plugin_record.git
-          ref: 29c02b15835907879451ad9f8f88c357149c6085
-          
-    引入方式3 (引入Flutter仓库的library)
-          
-    dependencies:
-      flutter_plugin_record: ^1.0.1
               
               
           
