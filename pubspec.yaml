@@ -15,7 +15,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  uuid: ^3.0.0
+  uuid: ^3.0.6
+#  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
@@ -80,3 +81,5 @@ flutter:
   #
   # For details regarding fonts in packages, see
   # https://flutter.dev/custom-fonts/#from-packages
+#flutter_intl:
+#  enabled: true

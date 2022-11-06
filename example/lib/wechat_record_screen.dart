@@ -8,7 +8,7 @@ class WeChatRecordScreen extends StatefulWidget {
 
 class _WeChatRecordScreenState extends State<WeChatRecordScreen> {
   String toastShow = "悬浮框";
-  OverlayEntry overlayEntry;
+  OverlayEntry? overlayEntry;
 
   showView(BuildContext context) {
     if (overlayEntry == null) {
@@ -48,7 +48,7 @@ class _WeChatRecordScreenState extends State<WeChatRecordScreen> {
           ),
         );
       });
-      Overlay.of(context).insert(overlayEntry);
+      Overlay.of(context)?.insert(overlayEntry!);
     }
   }
 
@@ -71,25 +71,25 @@ class _WeChatRecordScreenState extends State<WeChatRecordScreen> {
       body: Container(
         child: Column(
           children: <Widget>[
-            new FlatButton(
+            new TextButton(
                 onPressed: () {
                   showView(context);
                 },
                 child: new Text("悬浮组件")),
-            new FlatButton(
+            new TextButton(
                 onPressed: () {
                   if (overlayEntry != null) {
-                    overlayEntry.remove();
+                    overlayEntry?.remove();
                     overlayEntry = null;
                   }
                 },
                 child: new Text("隐藏悬浮组件")),
-            new FlatButton(
+            new TextButton(
                 onPressed: () {
                   setState(() {
                     toastShow = "111";
                     if (overlayEntry != null) {
-                      overlayEntry.markNeedsBuild();
+                      overlayEntry?.markNeedsBuild();
                     }
                   });
                 },

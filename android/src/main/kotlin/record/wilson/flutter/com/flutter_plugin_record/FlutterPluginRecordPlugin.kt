@@ -46,7 +46,7 @@ class FlutterPluginRecordPlugin : FlutterPlugin, MethodCallHandler, ActivityAwar
         @JvmStatic
         fun registerWith(registrar: Registrar) {
             val plugin = initPlugin(registrar.messenger())
-            plugin.activity=registrar.activity()
+            plugin.activity= registrar.activity()!!
             registrar.addRequestPermissionsResultListener(plugin)
         }
 
@@ -63,7 +63,7 @@ class FlutterPluginRecordPlugin : FlutterPlugin, MethodCallHandler, ActivityAwar
         }
     }
     override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
-       val methodChannel = createMethodChannel(binding.binaryMessenger)
+        val methodChannel = createMethodChannel(binding.binaryMessenger)
         methodChannel.setMethodCallHandler(this)
         channel=methodChannel
     }
@@ -321,10 +321,10 @@ class FlutterPluginRecordPlugin : FlutterPlugin, MethodCallHandler, ActivityAwar
                         }
                     }
                     AndroidAudioConverter.with(activity.applicationContext)
-                            .setFile(recordFile)
-                            .setFormat(AudioFormat.MP3)
-                            .setCallback(callback)
-                            .convert()
+                        .setFile(recordFile)
+                        .setFormat(AudioFormat.MP3)
+                        .setCallback(callback)
+                        .convert()
 
                 }else{
                     val _id = call.argument<String>("id")
@@ -402,10 +402,10 @@ class FlutterPluginRecordPlugin : FlutterPlugin, MethodCallHandler, ActivityAwar
                         }
                     }
                     AndroidAudioConverter.with(activity.applicationContext)
-                            .setFile(recordFile)
-                            .setFormat(AudioFormat.MP3)
-                            .setCallback(callback)
-                            .convert()
+                        .setFile(recordFile)
+                        .setFormat(AudioFormat.MP3)
+                        .setCallback(callback)
+                        .convert()
 
                 }else{
                     val _id = call.argument<String>("id")
@@ -462,9 +462,9 @@ class FlutterPluginRecordPlugin : FlutterPlugin, MethodCallHandler, ActivityAwar
 
 
     // 权限监听回调
-    override fun onRequestPermissionsResult(p0: Int, p1: Array<out String>?, p2: IntArray?): Boolean {
+    override fun onRequestPermissionsResult(p0: Int, p1: Array<out String>, p2: IntArray): Boolean {
         if (p0 == 1) {
-            if (p2?.get(0) == PackageManager.PERMISSION_GRANTED) {
+            if (p2[0] == PackageManager.PERMISSION_GRANTED) {
 //                initRecord()
                 return true
             } else {
@@ -478,6 +478,6 @@ class FlutterPluginRecordPlugin : FlutterPlugin, MethodCallHandler, ActivityAwar
         return false
     }
 
-    
+
 
 }
